@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0.1 Safari/605.1.15" version="24.7.17">
   <diagram name="Pagina-1" id="EkfTAN4hH_TVddPuiA1x">
-    <mxGraphModel dx="2879" dy="1384" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="2537" dy="1153" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -447,6 +447,123 @@
             <mxPoint x="-60" y="1169" as="sourcePoint" />
             <mxPoint x="1060" y="1169" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-75" value="nome" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-10" y="388" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-76" value="cognome" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry y="400" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-77" value="id camera" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1125" y="570" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-78" value="num letti" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="600" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-79" value="nome" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="710" y="690" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-80" value="cognome" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="770" y="690" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-81" value="data nascita" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="860" y="670" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-82" value="comune nascita" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="860" y="700" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-83" value="sesso" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="710" y="720" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-85" value="accompagnatore" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="880" y="950" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-86" value="c.f" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="915" y="980" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-87" value="c.f." style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="770" y="718" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-88" value="n. operazione" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="190" y="1139" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-89" value="badge chili" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="120" y="1130" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-90" value="data" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="340" y="1070" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-91" value="ora decesso" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="300" y="1040" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-92" value="nome" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="260" y="860" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-93" value="effetti" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="300" y="880" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-94" value="controindicazioni" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="330" y="910" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-95" value="dosaggio" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="190" y="880" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-96" value="primario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="75" y="380" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-97" value="salario" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="80" y="400" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-98" value="nome" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-180" y="280" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-99" value="pericolosità" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-120" y="260" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-101" value="nome" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="435" y="250" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-102" value="piano" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="250" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-103" value="id.programma" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="710" y="388" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-105" value="frequenza" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="900" y="400" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-106" value="ambito" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="820" y="388" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-107" value="id. cartella" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="510" y="548" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-108" value="allergie" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="580" y="548" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-109" value="patologie" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="570" y="518" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-110" value="operazioni" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="640" y="518" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-111" value="gruppo sanguigno&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="640" y="548" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-112" value="data" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-195" y="920" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-113" value="priorita" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-200" y="960" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-114" value="id" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="35" y="848" width="30" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-115" value="livello attrezzatura" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-10" y="878" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="EqLmaS4XHGkuEMbsUwe7-116" value="max persone" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="100" y="878" width="90" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
