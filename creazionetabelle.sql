@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS Cartella_clinica(
 );
 
 CREATE TABLE IF NOT EXISTS Reparti(
-    id_reparto INT PRIMARY KEY,
+    Nome_reparto VARCHAR PRIMARY KEY,
     piano INT NOT NULL,
     capacita_massima INT NOT NULL,
 );
