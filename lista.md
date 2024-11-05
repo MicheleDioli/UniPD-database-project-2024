@@ -21,3 +21,5 @@
 *-Attrezzatura medica (id attrezzatura, nome attrezzatura, nome reparto(fk), stato manutenzione, tipo attrezzatura, pericolosità)
 
 *-Reparto (nome reparto, capo reparto(fk), piano, capacità massima, telefono reparto)
+
+*-Allergie(c.f.(fk), allergia)
