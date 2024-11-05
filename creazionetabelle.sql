@@ -4,12 +4,14 @@ DROP TABLE IF EXISTS Accompagnatori CASCADE;
 DROP TABLE IF EXISTS Sale_operatorie CASCADE;
 DROP TABLE IF EXISTS Operazioni CASCADE;
 DROP TABLE IF EXISTS Farmaci CASCADE;
-DROP TABLE IF EXISTS Visite_prenotate CASCADE;
 DROP TABLE IF EXISTS Cartella_clinica CASCADE;
 DROP TABLE IF EXISTS Reparti CASCADE;
 DROP TABLE IF EXISTS Attrezzatura_medica CASCADE;
-DROP TABLE IF EXISTS Riabilitazione CASCADE;
+DROP TABLE IF EXISTS Cure CASCADE;
 DROP TABLE IF EXISTS Camere CASCADE;
+DROP TABLE IF EXISTS Ricoveri CASCADE;
+DROP TABLE IF EXISTS Registro_operazioni CASCADE;
+DROP TABLE IF EXISTS Capi_reparti CASCADE;
 
 CREATE TABLE IF NOT EXISTS Personale_medico(
     badge PRIMARY KEY,
@@ -76,17 +78,18 @@ CREATE TABLE IF NOT EXISTS Cure(
     ora INT NOT NULL,
 );
 
+CREATE TYPE gruppo AS ENUM ('A+','A-','B+','B-','0+','0-','AB+','AB-');
+
 CREATE TABLE IF NOT EXISTS Cartella_clinica(
     id_cartella INT PRIMARY KEY,
     allergie VARCHAR(128) NOT NULL,
-    gruppo_sanguigno,
+    gruppo_sanguigno GRUPPO NOT NULL,
     patologie VARCHAR(128),
     cf_paziente INT NOT NULL,
 );
 
 CREATE TABLE IF NOT EXISTS Reparti(
     nome_reparto VARCHAR PRIMARY KEY,
-    capo_reparto INT NOT NULL,
     piano INT NOT NULL,
     capacita_massima INT NOT NULL,
     telefono_reparto  VARCHAR(10) NOT NULL,
@@ -113,7 +116,12 @@ CREATE TABLE IF NOT EXISTS Ricoveri(
 
 CREATE TABLE IF NOT EXISTS Camere(
     id_camera INT PRIMARY KEY,
-    disponibilita BOOLEAN NOT NULL,
     nome_reparto VARCHAR(16) NOT NULL,
     numero_letti INT NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS Capi_reparti(
+);
+
+CREATE TABLE IF NOT EXISTS Registro_operazioni(
 );
