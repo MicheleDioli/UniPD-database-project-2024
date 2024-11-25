@@ -6,13 +6,12 @@ DROP TABLE IF EXISTS Operazioni CASCADE;
 DROP TABLE IF EXISTS Farmaci CASCADE;
 DROP TABLE IF EXISTS Cartella_clinica CASCADE;
 DROP TABLE IF EXISTS Reparti CASCADE;
-DROP TABLE IF EXISTS Attrezzatura_medica CASCADE;
 DROP TABLE IF EXISTS Cure CASCADE;
 DROP TABLE IF EXISTS Camere CASCADE;
 DROP TABLE IF EXISTS Ricoveri CASCADE;
 DROP TABLE IF EXISTS Registro_operazioni CASCADE;
 DROP TABLE IF EXISTS Capi_reparti CASCADE;
-DROP TABLE IF EXISTS Allergie CASCADE;
+
 
 CREATE TABLE IF NOT EXISTS Personale_medico(
     badge INT PRIMARY KEY,
@@ -103,15 +102,6 @@ CREATE TABLE IF NOT EXISTS Reparti(
     telefono_reparto  VARCHAR(10) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS Attrezzatura_medica(
-    id_attrezzatura INT NOT NULL,
-    nome_attrezzatura VARCHAR(32) NOT NULL,
-    nome_reparto VARCHAR(16) NOT NULL,
-    pericolosità INT NOT NULL,
-    stato_manutenzione VARCHAR(32) NOT NULL,
-    tipo_attrezzetura VARCHAR(32) NOT NULL,
-    FOREIGN KEY (nome_reparto) REFERENCES Reparti(nome_reparto)
-);
 
 CREATE TABLE IF NOT EXISTS Camere(
     id_camera INT PRIMARY KEY,
