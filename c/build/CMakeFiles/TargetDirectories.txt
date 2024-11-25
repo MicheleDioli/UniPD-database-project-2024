@@ -1,0 +1,3 @@
+/Users/jeff/Desktop/db/c/build/CMakeFiles/database.dir
+/Users/jeff/Desktop/db/c/build/CMakeFiles/edit_cache.dir
+/Users/jeff/Desktop/db/c/build/CMakeFiles/rebuild_cache.dir

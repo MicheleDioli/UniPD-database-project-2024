@@ -1,27 +1,27 @@
+-Personale medico (badge,cognome,nome,comune nascita, data nascita, ruolo, salario)
+
 -Pazienti (c.f, nome, cognome, sesso, data nascita, comune nascita, contatti)
 
--Cartella clinica (id cartella, c.f(fk), allergie, gruppo sanguigno, patologie,id cura(f.k))
+-Cartella clinica (id cartella,allergie,patologie, gruppo sanguigno, c.f.(f.k.), cura(f.k.))
 
--Camere (id camera, reparto(fk), numero letti)
+-Camere (id camera, numero letti occupati, max letti, reparto(f.k.))
 
--Ricoveri (id ricovero, id camera(fk), c.f.(fk), data ricovero, ora ricovero, data rilascio, ora rilascio, stato ricovero)
+-Ricoveri (id ricovero, ora ricovero, data ricovero, ora rilascio, data rilascio, stato ricovero, id camera(f.k.))
 
--Accompagnatori (c.f. acc, c.f(fk), nome, cognome, data nascita, parentela, contatti)
+-Accompagnatori (c.f. acc, nome, cognome, data nascita, parentela, contatti, c.f.(f.k.))
 
--Personale medico (badge, nome, cognome, data nascita, ruolo, salario, comune nascita)
+-Farmaci (id farmaco,nome, dosaggio, effetti, scadenza, controindicazioni, allergeni)
 
--Farmaci (id farmaco,nome, dosaggio, effetti, controindicazioni,data scadenza)
+-Cure (id cura, data, ora, tipo, farmaco(f.k.), badge(f.k.), c.f.(f.k.))
 
--Cure (id cura, badge(fk), c.f.(fk), id farmaco(fk), data, ora, tipo)
-
--Operazioni (id operazione, durata, esito, data, sala(fk),c.f.(fk))
+-Operazioni (id operazione, durata, esito, data, orario inizio, id sala(f.k.))
 
 -Sala operatoria (id sala, max persone, livello attrezzatura)
 
-//allergie come tabella per la terza forma normale??
-
 -Reparto (nome reparto, piano, capacità massima, telefono reparto)
 
--Personale reparto(badge,nome reparto)
+-listaOperazioni(badge(f.k.), id operazione(f.k.), c.f.(f.k.))
 
--Partecipazioni operazioni(badge id operazione)
+-listaLavoratori(badge(f.k.), reparto(f.k.))
+
+-listaRicoveri(c.f.(f.k.), id ricovero(c.k.),)
