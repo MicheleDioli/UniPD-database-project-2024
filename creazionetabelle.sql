@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Personale_medico(
     cognome VARCHAR(32) NOT NULL,
     ruolo VARCHAR(16) NOT NULL,
     data_nascita DATE NOT NULL,
-    comune_nascita VARCHAR NOT NULL,
+    comune_nascita VARCHAR(32) NOT NULL,
     stipendio INT NOT NULL
 );
 

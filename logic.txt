@@ -1,0 +1,62 @@
+VINCOLI DI INTEGRITÀ REFERENZIALI
+perosnale medico 
+pazienti 
+accompagnatori -> pazienti (c_f)
+sale operatorie
+operazioni -> sale operatorie (id_sala)
+farmaci
+cure -> personale medico (badge) -> farmaci (id_farmaco) -> pazienti (cf_paziente)
+cartella clinica -> cure (id_cura) -> pazienti (cf_paziente)
+reparti
+camere -> reparti(nome_reaprto)
+ricoveri -> camere (id_camera)
+lista operazioni -> personale medico (badge) -> operazioni (id_operazione) -> pazienti(cf_paziente)
+lista lavoratori -> personale medico(badge) -> reparti (nome_reaprto)
+lista ricoveri -> pazienti (cf_paziente) -> ricoveri (id_ricovero)
+
+
+
+
+
+
+volendo ::
+(131, 'Simona', 'Parisi', 'chirurgo', '1959-06-27', 'Padova', 32000),
+(132, 'Francesco', 'Costa', 'medico', '1984-12-03', 'Pescara', 25000),
+(133, 'Martina', 'Guerra', 'chirurgo', '1972-10-22', 'Ravenna', 30000),
+(134, 'Massimo', 'Negri', 'medico', '1969-05-30', 'Salerno', 27000),
+(135, 'Serena', 'Leone', 'chirurgo', '1976-03-13', 'Arezzo', 33000),
+(136, 'Emanuele', 'Giordano', 'medico', '1982-07-20', 'Cremona', 25000),
+(137, 'Alessia', 'Martini', 'chirurgo', '1960-12-18', 'La Spezia', 32000),
+(138, 'Gabriele', 'Battaglia', 'medico', '1988-09-06', 'Caserta', 27000),
+(139, 'Cristina', 'Montanari', 'chirurgo', '1965-04-19', 'Taranto', 34000),
+(140, 'Davide', 'Caputo', 'medico', '1980-01-09', 'Campobasso', 26000),
+(141, 'Barbara', 'Serra', 'chirurgo', '1957-10-10', 'Lucca', 34500),
+(142, 'Tommaso', 'Bellini', 'medico', '1986-06-29', 'Cosenza', 23000),
+(143, 'Alberto', 'Sala', 'chirurgo', '1971-11-07', 'Crotone', 31000),
+(144, 'Federico', 'Moretti', 'medico', '1978-08-12', 'Piacenza', 28000),
+(145, 'Giada', 'Santini', 'chirurgo', '1955-09-18', 'Benevento', 33000),
+(146, 'Lorenzo', 'Barone', 'medico', '1992-04-25', 'Varese', 25000),
+(147, 'Michela', 'Gentile', 'chirurgo', '1983-07-14', 'Brindisi', 32000),
+(148, 'Filippo', 'Sartori', 'medico', '1970-10-27', 'Trapani', 27000),
+(149, 'Sabrina', 'Corti', 'chirurgo', '1989-02-02', 'Ferrara', 34000),
+(150, 'Gianluca', 'Longo', 'medico', '1966-03-16', 'Chieti', 26000),
+(151, 'Vanessa', 'Pugliese', 'chirurgo', '1985-08-03', 'Agrigento', 34500),
+(152, 'Mauro', 'Pace', 'medico', '1979-01-11', 'LAquila', 23000),
+(153, 'Sofia', 'Locatelli', 'chirurgo', '1962-06-02', 'Avellino', 31000),
+(154, 'Nicola', 'Siciliano', 'medico', '1977-03-29', 'Matera', 28000),
+(155, 'Beatrice', 'Fornari', 'chirurgo', '1958-12-09', 'Caltanissetta', 32000),
+(156, 'Ludovico', 'Marconi', 'medico', '1981-05-05', 'Reggio Emilia', 25000),
+(157, 'Alice', 'Neri', 'chirurgo', '1963-10-17', 'Monza', 33000),
+(158, 'Enrico', 'Colombo', 'medico', '1975-07-23', 'Foggia', 27000),
+(159, 'Veronica', 'DAmico', 'chirurgo', '1987-11-19', 'Catanzaro', 34000),
+(160, 'Caterina', 'Bianco', 'medico', '1960-09-09', 'Pesaro', 26000),
+(161, 'Raffaele', 'Ventura', 'chirurgo', '1971-04-22', 'Como', 34500),
+(162, 'Gloria', 'Basile', 'medico', '1989-02-17', 'Sassari', 23000),
+(163, 'Edoardo', 'Trevisan', 'chirurgo', '1956-08-29', 'Oristano', 31000),
+(164, 'Gaia', 'Mazza', 'medico', '1980-11-30', 'Ragusa', 28000),
+(165, 'Arianna', 'Palumbo', 'chirurgo', '1972-09-21', 'Ascoli Piceno', 32000),
+(166, 'Dario', 'Bonetti', 'medico', '1968-06-03', 'Imperia', 25000),
+(167, 'Chiara', 'De Santis', 'chirurgo', '1955-03-14', 'Lecco', 33000),
+(168, 'Cristian', 'Marchi', 'medico', '1974-01-22', 'Olbia', 27000),
+(169, 'Paola', 'Riccardi', 'chirurgo', '1982-07-09', 'Terni', 34000),
+(170, 'Davide', 'Fabbri', 'medico', '1967-03-05', 'Pavia', 26000);
