@@ -1,4 +1,4 @@
-INSERT INTO Personale_medico (badge, nome, cognome, ruolo, data_di_nascita, comune_di_nascita, stipendio) VALUES
+INSERT INTO Personale_medico (badge, nome, cognome, ruolo, data_nascita, comune_nascita, stipendio) VALUES
 (100, 'Mario', 'Rossi', 'medico', '1980-05-15', 'Roma', 25000),
 (101, 'Luca', 'Bianchi', 'chirurgo', '1910-09-12', 'Milano', 32000),
 (102, 'Giulia', 'Sartori', 'medico', '1988-03-22', 'Napoli', 29000),
@@ -32,8 +32,8 @@ INSERT INTO Personale_medico (badge, nome, cognome, ruolo, data_di_nascita, comu
 (130, 'Daniele', 'Farina', 'medico', '1974-02-14', 'Catania', 28000),
 
 
-INSERT INTO Pazienti (nome, cognome, data_di_nascita, c_f, sesso, comune_di_nascita) VALUES -- da aggiungere contatti
-INSERT INTO Pazienti (nome, cognome, data_di_nascita, c_f, sesso, comune_di_nascita) VALUES
+--INSERT INTO Pazienti (nome, cognome, data_di_nascita, c_f, sesso, comune_di_nascita) VALUES -- da aggiungere contatti
+INSERT INTO Pazienti (nome, cognome, data_nascita, c_f, sesso, comune_nascita) VALUES
 ('Luca', 'Bianchi', '1980-05-15', 'BNCLCU80E15H501T', 'maschio', 'Roma'),
 ('Giulia', 'Verdi', '1992-09-23', 'VRDGLI92P23H501S', 'femmina', 'Milano'),
 ('Marco', 'Russo', '1978-11-07', 'RSSMRC78S07H501L', 'maschio', 'Napoli'),
