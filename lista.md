@@ -25,3 +25,5 @@
 -listaLavoratori(badge(f.k.), reparto(f.k.))
 
 -listaRicoveri(c.f.(f.k.), id ricovero(c.k.),)
+
+-listafarmaci(cura (id_cura), farmaci (id_farmaco))

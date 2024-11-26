@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS Ricoveri CASCADE;
 DROP TABLE IF EXISTS Lista_ricoveri CASCADE;
 DROP TABLE IF EXISTS Lista_operazioni CASCADE;
 DROP TABLE IF EXISTS Lista_lavoratori CASCADE;
-
+DROP TABLE IF EXISTS Lista_farmaci CASCADE;
 
 CREATE TABLE IF NOT EXISTS Personale_medico(
     badge INT PRIMARY KEY,
@@ -148,4 +148,12 @@ CREATE TABLE IF NOT EXISTS Lista_ricoveri(
     PRIMARY KEY(cf_paziente,id_ricovero),
     FOREIGN KEY (cf_paziente) REFERENCES Pazienti(c_f),
     FOREIGN KEY (id_ricovero) REFERENCES Ricoveri(id_ricovero)
+);
+
+CREATE TABLE IF NOT EXISTS Lista_farmaci(
+    id_cura INT,
+    id_farmaco INT,
+    PRIMARY KEY (id_cura, id_farmaco)
+    FOREIGN KEY (id_cura) REFERENCES Cure(id_cura),
+    FOREIGN KEY (id_farmaco) REFERENCES Farmaci(id_farmaco)
 );
