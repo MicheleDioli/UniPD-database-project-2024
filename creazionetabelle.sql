@@ -114,12 +114,12 @@ CREATE TABLE IF NOT EXISTS Camere(
 
 CREATE TABLE IF NOT EXISTS Ricoveri(
     id_ricovero INT PRIMARY KEY,
-    id_camera INT NOT NULL,
     data_ricovero DATE NOT NULL,
     ora_ricovero INT NOT NULL,
     data_rilascio DATE NOT NULL,
     ora_rilascio INT NOT NULL,
     stato_ricovero VARCHAR(16) NOT NULL,
+    id_camera INT NOT NULL,
     FOREIGN KEY (id_camera) REFERENCES Camere(id_camera)
 );
 
