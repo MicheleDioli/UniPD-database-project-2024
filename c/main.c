@@ -2,7 +2,7 @@
 #define PG_HOST "postgresql"
 #define PG_USER "mdioli"
 #define PG_DB "project"
-#define PG_PASS "QGf-p04Te;Cn"
+#define PG_PASS "upsie"
 #define PG_PORT 5432
 
 int main() {
