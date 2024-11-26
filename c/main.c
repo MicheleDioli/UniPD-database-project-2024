@@ -1,28 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <termios.h>
-#include <unistd.h>
 #include "funzioni.h"
-#define PG_HOST "localhost"
-#define PG_USER "postgres"
+#define PG_HOST "postgresql"
+#define PG_USER "mdioli"
 #define PG_DB "project"
-#define PG_PASS "aa"
+#define PG_PASS "QGf-p04Te;Cn"
 #define PG_PORT 5432
-
-
-void disable_echo_mode(struct termios *old_termios) {
-    struct termios new_termios;
-    tcgetattr(STDIN_FILENO, old_termios); 
-    new_termios = *old_termios;
-    new_termios.c_lflag &= ~ECHO;         
-    tcsetattr(STDIN_FILENO, TCSANOW, &new_termios); 
-}
-
-void enable_echo_mode(const struct termios *old_termios) {
-    tcsetattr(STDIN_FILENO, TCSANOW, old_termios); 
-}
-
 
 int main() {
   struct termios old_termios;
@@ -30,7 +11,7 @@ int main() {
   char x = '0';
   char input[10];
   
-  void (*query[])(PGconn *) = {Query1,Query2,Query3,Query4,Query5,Query6};
+  void (*query[])(PGconn *) = {Query1};
 
   char y = 0;
 
@@ -118,6 +99,7 @@ int main() {
         printf("Query selezionata non valida\n");
     }
   }
+
   PQfinish(conn);
-  printf("Arrivederci\n");
+  printf("Disconnessione riuscita\n");
 }

@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/funzioni.c
+funzioni.h
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/funzioni.h
+
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/funzioni.h
+libpq/include/libpq-fe.h
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/libpq/include/libpq-fe.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+termios.h
+-
+unistd.h
+-
+
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/libpq/include/libpq-fe.h
+stdio.h
+-
+postgres_ext.h
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/libpq/include/postgres_ext.h
+
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/libpq/include/pg_config_ext.h
+
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/libpq/include/postgres_ext.h
+pg_config_ext.h
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/libpq/include/pg_config_ext.h
+
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/main.c
+funzioni.h
+/home/0/2022/mdioli/Desktop/UniPD-database-project-2024/c/funzioni.h
+

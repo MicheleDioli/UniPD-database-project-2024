@@ -1,10 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/database.dir/funzioni.c.o"
-  "CMakeFiles/database.dir/funzioni.c.o.d"
   "CMakeFiles/database.dir/main.c.o"
-  "CMakeFiles/database.dir/main.c.o.d"
-  "database"
+  "CMakeFiles/database.dir/funzioni.c.o"
   "database.pdb"
+  "database"
 )
 
 # Per-language clean rules from dependency scanning.
