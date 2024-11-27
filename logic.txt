@@ -1,22 +1,20 @@
 VINCOLI DI INTEGRITÀ REFERENZIALI
-perosnale medico 
-pazienti 
-accompagnatori -> pazienti (c_f)
-sale operatorie
-operazioni -> sale operatorie (id_sala)
-farmaci
-cure -> personale medico (badge) -> farmaci (id_farmaco) -> pazienti (cf_paziente)
-cartella clinica -> cure (id_cura) -> pazienti (cf_paziente)
-reparti
-camere -> reparti(nome_reaprto)
-ricoveri -> camere (id_camera)
-lista operazioni -> personale medico (badge) -> operazioni (id_operazione) -> pazienti(cf_paziente)
-lista lavoratori -> personale medico(badge) -> reparti (nome_reaprto)
-lista ricoveri -> pazienti (cf_paziente) -> ricoveri (id_ricovero)
 
-
-
-
+personale medico (badge, nome, cognome, data di nascita, reparto, salario)
+reparti (nome reparto, piano, capacità massima reparto, numero telefono)
+camere (id camera, numero letti, n letti occupati) letti occupati è una ridondanza bella e buona!!
+ricoveri (id_ricovero, data ricovero, ora ricovero, stato ricovero, id_stanza)
+pazienti (c.f., id cartella, nome, cognome, sesso, data nascita, comune nascita)
+accompagnatore (c.f accompagnatore, c.f paziente, nome, cognome, data nascita, contatti, grado di parentela)
+cartella clinica(id cartella, gruppo sanguigno, patologia, allergie)
+operazioni (id operazione, id cartella, id sala, nome operazione, data, durata, esito)
+sale operatorie (id sala, livello attrezzatura, massimo persone)
+cure (id cura, id cartella, tipo cura, badge)
+farmaci (nome farmaco, dosaggio, effetti, allergeni, controindicazioni, scadenza)
+tra reparto e camere lista camere(id_camera, nome reparto)
+tra personale medico e reparto : capi reparto (badge, nome reparto)
+tra cure e farmaci: lista farmaci (id cura, nome farmaco)
+tra operazioni e personale medico chirurgi operazione(id operazione, badge)
 
 
 volendo ::
