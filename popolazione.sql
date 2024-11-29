@@ -1,47 +1,47 @@
-INSERT INTO Personale_medico (badge, nome, cognome, ruolo, data_nascita, comune_nascita, stipendio) VALUES
+INSERT INTO Reparti (nome_reparto, piano, capacità_massima, telefono_reparto) VALUES
+('Cardiologia', 2, 45, '0811234567'),
+('Oncologia', 3, 40, '0812345678'),
+('Pediatria', 1, 50, '0813456789'),
+('Chirurgia', 2, 35, '0814567890'),
+('Ortopedia', 1, 30, '0815678901'),
+('Ostetricia', 4, 50, '0816789012'), --problema
+('Neurologia', 5, 48, '0817890123'),
+('Gastroenterologia', 3, 38, '0818901234'),
+('Dermatologia', 1, 30, '0819012345'),
+('Urologia', 4, 42, '0810123456');
+
+INSERT INTO Personale_medico (badge, nome, cognome, ruolo, data_nascita, comune_nascita, stipendio, reparto, capo_reparto) VALUES
 (100, 'Mario', 'Rossi', 'medico', '1980-05-15', 'Roma', 25000),
-(101, 'Luca', 'Bianchi', 'chirurgo', '1910-09-12', 'Milano', 32000),
+(101, 'Luca', 'Bianchi', 'chirurgo', '1910-09-12', 'Milano', 32000,,'True'),
 (102, 'Giulia', 'Sartori', 'medico', '1988-03-22', 'Napoli', 29000),
 (103, 'Francesca', 'Russo', 'chirurgo', '1962-08-19', 'Torino', 34000),
 (104, 'Alessandro', 'Ferrari', 'medico', '1990-12-11', 'Palermo', 27000),
-(105, 'Chiara', 'Esposito', 'chirurgo', '1978-06-07', 'Firenze', 33000),
+(105, 'Chiara', 'Esposito', 'chirurgo', '1978-06-07', 'Firenze', 33000,,'True'),
 (106, 'Marco', 'Bruno', 'medico', '1985-01-24', 'Bologna', 26000),
-(107, 'Elena', 'Marini', 'chirurgo', '1965-04-16', 'Genova', 34500),
+(107, 'Elena', 'Marini', 'chirurgo', '1965-04-16', 'Genova', 34500,,'True'),
 (108, 'Andrea', 'Galli', 'medico', '1992-11-09', 'Venezia', 23000),
 (109, 'Valentina', 'Conti', 'chirurgo', '1958-02-03', 'Verona', 31000),
 (110, 'Paolo', 'Barbieri', 'medico', '1960-09-14', 'Trieste', 28000),
 (111, 'Sara', 'Rinaldi', 'chirurgo', '1977-12-30', 'Cagliari', 32000),
-(112, 'Giorgio', 'Grassi', 'medico', '1983-07-21', 'Perugia', 25000),
+(112, 'Giorgio', 'Grassi', 'medico', '1983-07-21', 'Perugia', 25000,,'True'),
 (113, 'Marta', 'Colombo', 'chirurgo', '1989-04-08', 'Ancona', 30000),
-(114, 'Giovanni', 'Fabbri', 'medico', '1970-05-19', 'Trento', 27000),
+(114, 'Giovanni', 'Fabbri', 'medico', '1970-05-19', 'Trento', 27000,,'True'),
 (115, 'Anna', 'Romano', 'chirurgo', '1959-06-15', 'Udine', 34000),
 (116, 'Roberto', 'Ricci', 'medico', '1986-11-28', 'Rimini', 26000),
 (117, 'Elisa', 'Orlandi', 'chirurgo', '1963-01-17', 'Pisa', 34500),
 (118, 'Stefano', 'Cattaneo', 'medico', '1991-03-24', 'Lecce', 23000),
-(119, 'Monica', 'Pagani', 'chirurgo', '1964-08-11', 'Messina', 31000),
-(120, 'Luigi', 'Pellegrini', 'medico', '1957-02-20', 'Bolzano', 28000),
+(119, 'Monica', 'Pagani', 'chirurgo', '1964-08-11', 'Messina', 31000,,'True'),
+(120, 'Luigi', 'Pellegrini', 'medico', '1957-02-20', 'Bolzano', 28000,,'True'),
 (121, 'Claudia', 'Rizzi', 'chirurgo', '1967-07-30', 'Aosta', 33000),
 (122, 'Fabio', 'Marchetti', 'medico', '1987-10-05', 'Reggio Calabria', 25000),
-(123, 'Silvia', 'Donati', 'chirurgo', '1980-12-12', 'Savona', 32000),
+(123, 'Silvia', 'Donati', 'chirurgo', '1980-12-12', 'Savona', 32000,,'True'),
 (124, 'Matteo', 'Ferraro', 'medico', '1973-09-25', 'Forlì', 27000),
 (125, 'Federica', 'Piazza', 'chirurgo', '1966-04-18', 'Treviso', 34000),
 (126, 'Antonio', 'Villa', 'medico', '1990-08-07', 'Siena', 26000),
 (127, 'Ilaria', 'Caruso', 'chirurgo', '1981-06-23', 'Bari', 34500),
-(128, 'Riccardo', 'Mancini', 'medico', '1961-03-31', 'Vicenza', 23000),
+(128, 'Riccardo', 'Mancini', 'medico', '1961-03-31', 'Vicenza', 23000,,'True'),
 (129, 'Laura', 'De Luca', 'chirurgo', '1968-11-01', 'Modena', 31000),
 (130, 'Daniele', 'Farina', 'medico', '1974-02-14', 'Catania', 28000),
-
-INSERT INTO Reparti (nome_reparto, piano, capacità_massima, telefono_reparto, badge_capo_reparto) VALUES
-('Cardiologia', 2, 45, '0811234567', 107),
-('Oncologia', 3, 40, '0812345678', 112),
-('Pediatria', 1, 50, '0813456789', 119),
-('Chirurgia', 2, 35, '0814567890',120),
-('Ortopedia', 1, 30, '0815678901',101),
-('Ostetricia', 4, 50, '0816789012',107),
-('Neurologia', 5, 48, '0817890123',123),
-('Gastroenterologia', 3, 38, '0818901234',128),
-('Dermatologia', 1, 30, '0819012345',105),
-('Urologia', 4, 42, '0810123456',113);
 
 INSERT INTO Camere (id_camera, nome_reparto, massimo_letti) VALUES
 (1001, 'Cardiologia', 3),
@@ -252,7 +252,7 @@ INSERT INTO Sale_operaratorie (id_sala, max_persone, livello_attrezzatura) VALUE
 (2007, 5, 'basso'),
 (2008, 7, 'alto'),
 (2009, 6, 'medio'),
-(2010, 4, 'basso');
+(2010, 3, 'basso');
 
 INSERT INTO Operazioni (id_operazione, durata, esito, data_, sala, orario_inizio, id_cartella) VALUES
 (501, 5, 'positivo', '2024-11-01', 2001, '08:30:00', 301),

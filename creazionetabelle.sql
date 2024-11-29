@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS Personale_medico(
     badge INT PRIMARY KEY,
     nome VARCHAR(32) NOT NULL,
     cognome VARCHAR(32) NOT NULL,
+    ruolo VARCHAR(32) NOT NULL,
     data_nascita DATE NOT NULL,
     comune_nascita VARCHAR(32) NOT NULL,
     stipendio INT NOT NULL,
@@ -31,13 +32,6 @@ CREATE TABLE IF NOT EXISTS Personale_medico(
     FOREIGN KEY (reparto) REFERENCES Reparti(nome_reparto) 
 );
 
-CREATE TABLE IF NOT EXISTS Lista_lavoratori(
-    badge INT,
-    nome_reparto INT,
-    PRIMARY KEY(badge, nome_reparto),
-    FOREIGN KEY (badge) REFERENCES Personale_medico(badge),
-    FOREIGN KEY (nome_reparto) REFERENCES Reparti(nome_reparto)
-);
 
 CREATE TABLE IF NOT EXISTS Pazienti(
     c_f VARCHAR(16) PRIMARY KEY,
