@@ -1,0 +1,476 @@
+\documentclass[a4paper, 10pt]{article}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage{float}
+\setlength{\intextsep}{5pt}
+
+\title{PROGETTO DI BASI DI DATI}
+\author{Riccardo Berengan 2080041 \& Michele Dioli 2077629}
+
+\singlespacing
+
+\begin{document}
+\maketitle
+\section{ABSTRACT}
+Un ospedale è un ente pubblico che ha i compiti di accoglienza, cura, riabilitazione e di fornire visite ai pazienti. L'ospedale è diviso in reparti che si differenziano in base all'età dei pazienti ed alla branca di malattie che presentano. I dottori e gli infermieri sono assegnati ad ogni reparto ed hanno il copito di diagnosticare le malattie e di prendersi cura dei pazienti e nel caso operarli, oppure possono avere dei ruoli di visita anche di pazienti esterni a cui vengono prescritte queste ultime dai propri medici di base. Le sale operatorie e le attrezzature mediche vanno prenotate e sono divise anch'esse in base al reparto ed al tipo di personale medico che ouò utilizzarle.
+
+\section{ANALISI DEI REQUISITI}
+\subsection{DESCRIZIONE}
+Si vuole creare un database che permetta di gestire tutti i ricoveri, il personale che se ne occupa, le cure e le operazioni a cui i pazienti vengono sottoposti.
+Dunque del personale medico diviso in : medici, chirurgi e infermieri  bisogna conoscere :
+\begin{spacing}{0.8}
+\begin{itemize}
+    \item Numero di Badge
+    \item Nome
+    \item Cognome
+    \item Data di nascita
+    \item Salario
+\end{itemize}
+Dei medici bisogna conoscere :
+\begin{itemize}
+    \item la specializzazione
+    \item se sono primari
+\end{itemize}
+Dei chirurgi bisogna conoscere :
+\begin{itemize}
+    \item la specializzazione
+    \item se sono primari
+\end{itemize}
+Degli infermieri bisogna conoscere :
+\begin{itemize}
+    \item L'abilitazione
+\end{itemize}
+I medici scrivono per ogni paziente una cartella clinica che è caratterizzata da :
+\begin{itemize}
+    \item Id cartella
+    \item Allergie
+    \item Stato del paziente
+    \item Gruppo sanguigno
+    \item Patologia
+\end{itemize}
+Inoltre i medici offrono anche servizi di visita su prenotazione per pazienti non ricoverati di cui si deve sapere : 
+\begin{itemize}
+    \item Id della visita
+    \item Data visita
+    \item Ora visita
+    \item Codice fiscale del paziente
+    \item Livello di priorità
+\end{itemize}
+Ci sono poi i farmaci che vengono prescritti e somministrati ai pazienti di cui bisogna sapere :
+\begin{itemize}
+    \item Nome
+    \item Dosaggio
+    \item Effetti
+    \item Controindicazioni
+\end{itemize}
+Tutti i medici, infermieri e chirurgi utilizzano dell'attrezzzatura medica che può essere molto differente e di cui quindi bisogna sapere  : 
+\begin{itemize}
+    \item Nome attrezzatura
+    \item Pericolosità
+    \item Tipo di attrezzatura
+    \item Stato manutenzione
+\end{itemize}
+I chirurgi che operano i pazienti lo fanno in delle sale operatorie apposite, caratterizzate da  :
+\begin{itemize}
+    \item Id sala
+    \item Massimo personale (che può accedere per volta)
+    \item Livello di attrezzatura
+\end{itemize}
+Anche le operazioni vanno quindi prenotate e monitorate e di esse bisogna sapere:
+\begin{itemize}
+    \item Id operazione
+    \item Badge chirurgo (a capo dell'operazione)
+    \item Durata
+    \item Data
+    \item Esito
+\end{itemize}
+Ci sono poi i pazienti di cui bisogna sapere :
+\begin{itemize}
+    \item Nome
+    \item Cognome
+    \item Data di nascita
+    \item Sesso
+    \item Codice fiscale
+    \item Comune di nascita
+\end{itemize}
+I pazienti poi possono essere minorenni ed hanno quindi bisogno di un accompagnatore che sia anche referente legale del paziente minorenne di cui bisogna quindi sapere :
+\begin{itemize}
+    \item Nome
+    \item Cognome
+    \item Codice fiscale
+    \item Data di nascita
+    \item Grado di parentela
+\end{itemize}
+I pazienti ricoverati devono essere registrati e quindi dei ricoveri è necessario conoscere: 
+\begin{itemize}
+    \item Codice fiscale del/della ricoverato/a
+    \item Id camera
+    \item Ora ricovero
+    \item Data del ricovero
+    \item Stato del ricovero
+    \item Data del rilascio
+    \item  Ora del rilascio
+\end{itemize}
+I pazienti ricoverati vengono messi in delle camere che hanno come attributi :
+\begin{itemize}
+    \item Id camera
+    \item Disponibilità letti
+    \item Numero totale letti
+    \item Reparto in cui sta
+\end{itemize}
+I pazienti, dopo le cure o le operzani, possono avere bisogno di un programma di riabilitazione definito dal medico curante. Questo programma è caratterizzato da : 
+\begin{itemize}
+    \item Id programma
+    \item Ambito
+    \item Frequenza
+\end{itemize}
+Tutte le entità fino ad ora descitte sono divise all'interno dell'ospedale in reparti in base alla branca delle patologie dei pazienti di quel reparto curate. Dunque ogni reparto avrà strutture, attrezzature, numero di dipendenti e specializzazione di questi ultimi differenti. Dei reparti bisogna dunque sapere :
+\begin{itemize}
+    \item Nome reparto
+    \item Piano dell'ospedale
+    \item Capo del reparto
+    \item Capacità massima (dei pazienti)
+
+\end{itemize}
+\end{spacing}
+
+
+\subsection{GLOSSARIO}
+\textbf{PERSONALE MEDICO} è il gruppo di persone abilitate alla professione medica (con diversi ruoli e gradi) che si occuopano di diagnosticare malattie, prescrivere farmaci, visitare e operare i pazienti. 
+\textbf{REPARTI} sono raggruppamenti divisi per età e tipo di patologie in cui vengono messi i pazienti e in cui lavorano i medici e chirurgi specializzati in quella specifica branca della medicina.
+\textbf{PAZIENTI} sono coloro che vanno in ospedale per delle visite prescirtte esternamente, per percorsi di riabilitazione, per dei problemi di salute oppure che nei casi più gravi o lunghi da curare vengono ricoverati.
+\textbf{ATTREZZATURA MEDICA} sono tutte le strumentazioni di diagnosi (ad esempio macchinari per la risonanza magnetica), di cura (come garze, cerotti, flebo) e utili alle operazioni (come ad esmpio i bisturi gli o aghi e fili soeciali per richiudere le ferite).
+\textbf{RICOVERI} sono tutti i pazienti che hanno una permanenza che duri più di un giorno all'interno dell'ospedale e quindi con malattie, patologie o lesioni che richiedono dei tempi di diagnosi e cura più lunghi, che vengono assegnati in diversi reparti e per i quali vengono fatte delle specifiche cartelle cliniche per curarli.
+\textbf{OPERAZIONI} sono tutti gli interventi diretti sul paziente per mano dei chirurgi.
+
+\section{PROGETTAZIONE CONCETTUALE}
+\subsection{LISTA ENTITÀ}
+\begin{spacing}{0.1}
+\begin{itemize}
+    \item Personale Medico
+\begin{itemize}
+    \item \underline{Badge}
+\end{itemize}
+\begin{itemize}
+        \item Nome
+        \item Cognome
+        \item Data di nascita
+        \item Salario
+        \item Nome reparto
+\end{itemize}
+\item Chirurgi
+\begin{itemize}
+    \item qualifica
+\end{itemize}
+\item Medici 
+\begin{itemize}
+    \item certificazione
+\end{itemize}
+\item Pazienti
+\begin{itemize}
+    \item \underline{c.f.}
+    \item nome
+    \item cognome
+    \item genere
+    \item data nascita
+    \item comune nascita
+    \item contatti
+\end{itemize}
+
+\item Maggiorenni
+
+\item Minorenni
+\begin{itemize}
+    \item Accompagnatore: \textit{attributo composto da c.f accompagnatore, nome, cognome, data nascita e comune nascita}
+\end{itemize}
+\item Sala operatoria
+\begin{itemize}
+    \item \underline{id operazione}
+    \item max persone
+    \item livello attrezzatura
+\end{itemize}
+
+\item Operazione
+\begin{itemize}
+    \item \underline{id operazione}
+    \item durata
+    \item data
+    \item orario inizio
+    \item esito
+\end{itemize}
+
+\item Reparti
+\begin{itemize}
+    \item \underline{nome reparto}
+    \item piano
+    \item capacita massima
+    \item telefono reparto
+\end{itemize}
+
+\item Cure
+\begin{itemize}
+    \item \underline{id cura}
+    \item ora 
+    \item data
+    \item tipo cura
+\end{itemize}
+
+\item Farmaci
+\begin{itemize}
+    \item \underline{id farmaco}
+    \item nome
+    \item dosaggio
+    \item scadenza
+    \item effetti
+    \item allergeni
+    \item controindicazioni
+\end{itemize}
+
+\item Cartella clinica
+\begin{itemize}
+    \item \underline{id cartella}
+    \item allergie
+    \item patologie
+    \item gruppo sanguigno
+\end{itemize}
+
+\item Camere 
+\begin{itemize}
+    \item \underline{id camera}
+    \item letti occupati
+    \item max letti
+\end{itemize}
+
+\item Ricoveri
+\begin{itemize}
+    \item \underline{id ricovero}
+    \item ora ricovero
+    \item data ricovero
+    \item ora rilascio
+    \item data rilascio
+    \item stato ricovero
+\end{itemize}
+\end{itemize}
+\end{spacing}
+
+\subsection{Lista Relazioni}
+\begin{spacing}{0.3}
+    
+\begin{itemize}
+    \item \textbf{Personale-Reparti:} lavora (1:N)
+    \begin{itemize}
+        \item Ogni lavoratore lavora in un reparto
+        \item In un reparto lavorano più lavoratori
+    \end{itemize}
+    \item \textbf{Chirurgi-Operazioni:} operano (N:M)
+    \begin{itemize}
+        \item Un chirurgo può fare più operazioni
+        \item Un' operazione puè essere fatto da più chirurgi
+    \end{itemize}
+    \item \textbf{Cure-Medici:} trattano (1:N)
+    \begin{itemize}
+        \item Una cura viene fatta da un medico
+        \item Un medico può fare più cure
+    \end{itemize}
+    \item \textbf{Operazoni-Sale operatorie:} fatte (1:N)
+    \begin{itemize}
+        \item Un operazione viene fatto in una sola sala
+        \item In una sala si possono dare più operazioni
+    \end{itemize}
+    \item \textbf{Cure-Faramaci:} somministrati (N:M)
+    \begin{itemize}
+        \item In una cura si possono somministrare più farmaci
+        \item Un farmaco può essere usato in più cure
+    \end{itemize}
+    \item \textbf{Operazioni-Cartella clinica:} segnate (1:N)
+    \begin{itemize}
+        \item Una operazione specifica è presente in una sola cartella clinica
+        \item In una cartella clinica possono essere segnate più operazioni
+    \end{itemize}
+     \item \textbf{Cure-Cartella clinica:} segnate (1:N)
+    \begin{itemize}
+        \item Una cura specifica è presente in una sola cartella clinica
+        \item In una cartella clinica possono essere segnate più cure
+    \end{itemize}
+     \item \textbf{Paziente-Cartella clinica:} assegnata (1:1)
+    \begin{itemize}
+        \item ad un paziente è associata una sola cartella clinica
+        \item Ad una cartella clinica può essere assogiato un solo paziente
+    \end{itemize}
+     \item \textbf{Ricovero-Paziente:} è stato (1:N)
+    \begin{itemize}
+        \item Ad un ricovero specifico è assogiato un solo paziente
+        \item Un paziente può fare più ricoveri
+    \end{itemize}
+    \item \textbf{Ricovero-Camera:} effetuati (1:N)
+    \begin{itemize}
+        \item Ad un ricovero specifico è assogiato una sola camera
+        \item Un camera può essere usato per più ricoveri
+    \end{itemize}
+    \item \textbf{Camera-Reparto:} situate (1:N)
+    \begin{itemize}
+        \item Una camera può essere in un solo reparto
+        \item In un reparto ci sono più camere
+    \end{itemize}
+\end{itemize}
+\subsection{Lista generalizzazioni}
+
+\begin{itemize}
+    \item \textbf{Personale medico} è una generalizzazione totale ed esclusiva di \textbf{Chirurgi} e \textbf{Medici}
+    \item \textbf{Paziente} è una generalizzazione totale ed esclusiva di \textbf{Maggiorenni} e \textbf{Minorenni}
+\end{itemize}
+\end{spacing}
+
+\subsection{Schema E-R}
+\begin{figure}[H]
+    \includegraphics[width=1\linewidth]{ER-conc.drawio.png}
+\end{figure}
+
+\section{PROGETTAZIONE LOGICA}
+\subsection{Analisi delle Ridondanze}
+Analizzando meglio lo schema e-r notiamo la presenza dell'attributo n letti occupati nell'entità Camere, che potrebbe essere calcolato dal numero di ricoveri in una camera, tale attributo di fatti è la differenza dei letti massimi e dei ricoveri.
+Bisogna quindi analizzare le operazioni riguardanti questo attributo per capire se eliminarlo.
+
+\begin{itemize}
+    \item \textbf{Operazione 1 (100 volte/giorno):} Memorizzare un nuovo paziente dell'ospedale.
+    \item \textbf{Operazione 2 (2 volte/giorno):} Controllare e stampare lo stato delle camere.
+\end{itemize}
+
+\subsection*{Con Ridondanza}
+\begin{itemize}
+    \item \textbf{Operazione 1}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|l|}
+            \hline
+            \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accesso} & \textbf{Tipo} & \textbf{Note} \\ 
+            \hline
+            Ricoveri & Entità  & 1 & Scrittura & x 100 volte/giorno \\ \hline
+            Fatti & Relazione & 1 & Lettura   & x 100 volte/giorno \\ \hline
+            Camera & Entità   & 1 & Scrittura & x 100 volte/giorno \\ \hline
+            Camera & Entità   & 1 & Scrittura & x 100 volte/giorno \\ \hline
+        \end{tabular}
+    \end{table}
+    \textbf{Costo:} 300 in scrittura, 100 in lettura.
+
+    \item \textbf{Operazione 2}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|l|}
+            \hline
+            \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accesso} & \textbf{Tipo} & \textbf{Note} \\ 
+            \hline
+            Camere & Entità & 1 & Lettura & x 2 volte/giorno \\ \hline
+        \end{tabular}
+    \end{table}
+    \textbf{Costo:} 2 in lettura.
+\end{itemize}
+
+\textbf{Costo giornaliero:} \( 300 \times 2 + 102 = 702 \).
+
+\subsection*{Senza Ridondanza}
+\begin{itemize}
+    \item \textbf{Operazione 1}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|l|}
+            \hline
+            \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accesso} & \textbf{Tipo} & \textbf{Note} \\ 
+            \hline
+            Ricoveri & Entità  & 1 & Scrittura & x 100 volte/giorno \\ \hline
+            Fatti    & Relazione & 1 & Scrittura & x 100 volte/giorno \\ \hline
+        \end{tabular}
+    \end{table}
+    \textbf{Costo:} 200 in scrittura.
+
+    \item \textbf{Operazione 2}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{|c|c|c|c|l|}
+            \hline
+            \textbf{Concetto} & \textbf{Costrutto} & \textbf{Accesso} & \textbf{Tipo} & \textbf{Note} \\ 
+            \hline
+            Camere  & Entità    & 100 & Lettura & x 1 volta/giorno \\ \hline
+            Fatti   & Relazione & 1   & Lettura & x 1 volta/giorno \\ \hline
+        \end{tabular}
+    \end{table}
+    \textbf{Costo:} 101 in lettura.
+\end{itemize}
+
+\textbf{Costo giornaliero:} \( 200 \times 2 + 101 = 402 \).
+
+In questo caso, conviene quindi eliminare l'attributo \textit{numero letti 
+occupati} della tabella \textbf{Camere} e calcolarlo solo quando viene richiesto.
+\subsection{Eliminazioni delle generalizzazioni}
+\begin{itemize}
+\item \textbf{Personale medico:} è una generalizzazione totale ed esclusiva, legata con una relazione uno a N all'entità Reparti, le classi figlie \textbf{Chirurgi} e \textbf{Medici} sono collegate loro stesse a due entità diverse, operano e trattano. L'entità figlie vengono incorporate nel padre, e si inserisce l'attributo \textit{ruolo} all'entità \textbf{Personale medico} che unisce l attributo \textit{qualifica} di \textbf{Chirurgi} e  l'attributo \textit{certificazione} di \textbf{Medici}
+\item \textbf{Paziente:} è una generalizzazione totale ed esclusiva, legata all'entità Cartella clinica e Ricoveri. Le classi figlie \textbf{Maggiorenne} e \textbf{Minorenne} non hanno né attributi né relazioni, tranne l attributo composto \textit{accompagnatore}  in \textbf{Minorenne}. Si è deciso quindi di accorpare le classi figlie inserendo un attributo \textit{età} nella classe padre \textbf{Pazienti}
+\end{itemize}
+\subsection{Scelta di identificatori primari}
+La nuova entità \textbf{Accompagnatori} avrà come identificare primario "codice fiscale accompagnatore", essendo unifico per ogni persona
+\subsection{Diagramma ER ristrutturato}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{ER-ristru.drawio.png}
+\end{figure}
+\subsection{Descrizione schema relazionale}
+\begin{spacing}{0.4}
+\begin{itemize}
+    \item \textbf{Reparti}(\underline{nome\_reparto}, piano, capacità\_massima, telefono\_reparto)
+    \item \textbf{Personale\_medico}(\underline{badge}, nome, cognome, ruolo, data\_nascita, comune\_nascita, stipendio, capo\_reparto, reparto)
+    \item \textbf{Pazienti}(\underline{c\_f}, nome, cognome, sesso, data\_nascita, comune\_nascita)
+    \item \textbf{Camere}(\underline{id\_camera}, nome\_reparto, massimo\_letti, letti\_occupati)
+    \item \textbf{Ricoveri}(\underline{id\_ricovero}, data\_ricovero, ora\_ricovero, stato\_ricovero, id\_camera, cf\_ricoverato)
+    \item \textbf{Accompagnatori}(\underline{cf\_accompagnatore}, nome, cognome, data\_nascita, parentela, contatti, cf\_paziente)
+    \item \textbf{Cartella\_clinica}(\underline{id\_cartella}, allergie, patologie, gruppo\_sanguigno, cf\_paziente, id\_cura)
+    \item \textbf{Sale\_operatorie}(\underline{id\_sala}, max\_persone, livello\_attrezzatura)
+    \item \textbf{Operazioni}(\underline{id\_operazione}, durata, esito, data\_, sala, orario\_inizio, id\_cartella)
+    \item \textbf{Farmaci}(\underline{id\_farmaco}, nome, dosaggio, effetti, controindicazioni, data\_scadenza, allergeni)
+    \item \textbf{Cure}(\underline{id\_cura}, badge, id\_cartella, id\_farmaco, data\_, ora)
+    \item \textbf{Lista\_operazioni}(\underline{badge}, \underline{id\_operazione})
+    \item \textbf{Lista\_farmaci}(\underline{id\_cura}, \underline{id\_farmaco})
+\end{itemize}
+\end{spacing}
+\subsection{Vincoli di integrità referenziale}
+\begin{spacing}{0.4}
+\begin{itemize}
+    \item \textbf{Personale\_medico.reparto} $\to$ Reparti.nome\_reparto
+    \item \textbf{Camere.nome\_reparto} $\to$ Reparti.nome\_reparto
+    \item \textbf{Ricoveri.id\_camera} $\to$ Camere.id\_camera
+    \item \textbf{Ricoveri.cf\_ricoverato} $\to$ Pazienti.c\_f
+    \item \textbf{Accompagnatori.cf\_paziente} $\to$ Pazienti.c\_f
+    \item \textbf{Cartella\_clinica.cf\_paziente} $\to$ Pazienti.c\_f
+    \item \textbf{Cartella\_clinica.id\_cura} $\to$ Cure.id\_cura
+    \item \textbf{Operazioni.sala} $\to$ Sale\_operatorie.id\_sala
+    \item \textbf{Operazioni.id\_cartella} $\to$ Cartella\_clinica.id\_cartella
+    \item \textbf{Cure.badge} $\to$ Personale\_medico.badge
+    \item \textbf{Cure.id\_cartella} $\to$ Cartella\_clinica.id\_cartella
+    \item \textbf{Cure.id\_farmaco} $\to$ Farmaci.id\_farmaco
+    \item \textbf{Lista\_operazioni.badge} $\to$ Personale\_medico.badge
+    \item \textbf{Lista\_operazioni.id\_operazione} $\to$ Operazioni.id\_operazione
+    \item \textbf{Lista\_farmaci.id\_cura} $\to$ Cure.id\_cura
+    \item \textbf{Lista\_farmaci.id\_farmaco} $\to$ Farmaci.id\_farmaco
+\end{itemize}
+\end{spacing}
+\section{QUERY E INDICI}
+\subsection{Query}
+\subsection{Indici}
+\section{CODICE C}
+Il codice C per accedere a PostgreSQL necessita della presenza di \texttt{cmake}. Verificare di averlo installato eseguendo il comando seguente:
+
+\begin{minted}[frame=single, fontsize=\small]{bash}
+cmake --version
+\end{minted}
+Una volta verificata la presenza di \texttt{cmake}, procedere come segue:
+\begin{itemize}
+    \item Recarsi nella cartella \texttt{c}.
+    \item (Opzionale) Modificare direttamente il file \texttt{main.c} con i dati d'accesso PostgreSQL, cambiando correttamente i valori dei \texttt{\#define}.
+    \item Eseguire lo script Bash \texttt{rebuild.sh}, presente nella cartella \texttt{c}: 
+\begin{minted}[frame=single, fontsize=\small]{bash}
+sh rebuild.sh
+\end{minted}
+\end{itemize}
+Lo script Bash compila ed esegue il codice. Se non ci sono errori, sarà possibile interagire con PostgreSQL da terminale.
+
+\end{document}
