@@ -2,7 +2,7 @@
 
 -Pazienti (c.f, nome, cognome, sesso, data nascita, comune nascita, contatti)
 
--Cartella clinica (id cartella,allergie,patologie, gruppo sanguigno, c.f.(f.k.), cura(f.k.))
+-Cartella clinica (id cartella, gruppo sanguigno, patologia, allergie)
 
 -Camere (id camera, numero letti occupati, max letti, reparto(f.k.))
 

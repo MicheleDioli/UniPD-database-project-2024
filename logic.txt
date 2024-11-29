@@ -2,7 +2,7 @@ VINCOLI DI INTEGRITÀ REFERENZIALI
 
 personale medico (badge, nome, cognome, data di nascita, reparto, salario)
 reparti (nome reparto, piano, capacità massima reparto, numero telefono)
-camere (id camera, numero letti, n letti occupati) letti occupati è una ridondanza bella e buona!!
+camere (id camera, numero letti, n letti occupati)
 ricoveri (id_ricovero, data ricovero, ora ricovero, stato ricovero, id_stanza)
 pazienti (c.f., id cartella, nome, cognome, sesso, data nascita, comune nascita)
 accompagnatore (c.f accompagnatore, c.f paziente, nome, cognome, data nascita, contatti, grado di parentela)
@@ -11,7 +11,6 @@ operazioni (id operazione, id cartella, id sala, nome operazione, data, durata, 
 sale operatorie (id sala, livello attrezzatura, massimo persone)
 cure (id cura, id cartella, tipo cura, badge)
 farmaci (nome farmaco, dosaggio, effetti, allergeni, controindicazioni, scadenza)
-tra reparto e camere lista camere(id_camera, nome reparto)
 tra personale medico e reparto : capi reparto (badge, nome reparto)
 tra cure e farmaci: lista farmaci (id cura, nome farmaco)
 tra operazioni e personale medico chirurgi operazione(id operazione, badge)
