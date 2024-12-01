@@ -1,3 +1,25 @@
+DROP TABLE IF EXISTS Reparti CASCADE;
+DROP TABLE IF EXISTS Personale_medico CASCADE;
+DROP TABLE IF EXISTS Camere CASCADE;
+DROP TABLE IF EXISTS Ricoveri CASCADE;
+DROP TABLE IF EXISTS Pazienti CASCADE;
+DROP TABLE IF EXISTS Accompagnatori CASCADE;
+DROP TABLE IF EXISTS Sale_operatorie CASCADE;
+DROP TABLE IF EXISTS Operazioni CASCADE;
+DROP TABLE IF EXISTS Farmaci CASCADE;
+DROP TABLE IF EXISTS Cartella_clinica CASCADE;
+DROP TABLE IF EXISTS Cure CASCADE;
+DROP TABLE IF EXISTS Lista_operazioni CASCADE;
+DROP TABLE IF EXISTS Lista_farmaci CASCADE;
+DROP TYPE IF EXISTS gruppo CASCADE;
+
+CREATE TABLE IF NOT EXISTS Reparti(
+    nome_reparto VARCHAR(32) PRIMARY KEY,
+    piano INT NOT NULL,
+    capacita_massima INT NOT NULL,
+    telefono_reparto  VARCHAR(16) NOT NULL
+);
+
 INSERT INTO Reparti (nome_reparto, piano, capacita_massima, telefono_reparto) VALUES
 ('Cardiologia', 2, 45, '0811234567'),
 ('Oncologia', 3, 40, '0812345678'),
@@ -9,6 +31,19 @@ INSERT INTO Reparti (nome_reparto, piano, capacita_massima, telefono_reparto) VA
 ('Gastroenterologia', 3, 38, '0818901234'),
 ('Dermatologia', 1, 30, '0819012345'),
 ('Urologia', 4, 42, '0810123456');
+
+CREATE TABLE IF NOT EXISTS Personale_medico(
+    badge INT PRIMARY KEY,
+    nome VARCHAR(32) NOT NULL,
+    cognome VARCHAR(32) NOT NULL,
+    ruolo VARCHAR(32) NOT NULL,
+    data_nascita DATE NOT NULL,
+    comune_nascita VARCHAR(32) NOT NULL,
+    stipendio INT NOT NULL,
+    capo_reparto BOOLEAN,
+    reparto VARCHAR(32) NOT NULL,
+    FOREIGN KEY (reparto) REFERENCES Reparti(nome_reparto) 
+);
 
 INSERT INTO Personale_medico (badge, nome, cognome, ruolo, data_nascita, comune_nascita, stipendio, capo_reparto, reparto) VALUES
 (100, 'Mario', 'Rossi', 'medico', '1980-05-15', 'Roma', 25000, FALSE, 'Cardiologia'),
@@ -43,52 +78,69 @@ INSERT INTO Personale_medico (badge, nome, cognome, ruolo, data_nascita, comune_
 (129, 'Laura', 'De Luca', 'chirurgo', '1968-11-01', 'Modena', 31000, FALSE, 'Neurologia'),
 (130, 'Daniele', 'Farina', 'medico', '1974-02-14', 'Catania', 28000, FALSE, 'Chirurgia');
 
-INSERT INTO Pazienti (c_f, nome, cognome, data_nascita, sesso, comune_nascita) VALUES
-('BNCLCU80E15H501T', 'Luca', 'Bianchi', '1980-05-15', 'maschio', 'Roma'),
-('VRDGLI92P23H501S', 'Giulia', 'Verdi', '1992-09-23', 'femmina', 'Milano'),
-('RSSMRC78S07H501L', 'Marco', 'Russo', '1978-11-07', 'maschio', 'Napoli'),
-('SPSCIA85A24H501N', 'Chiara', 'Esposito', '1985-01-24', 'femmina', 'Torino'),
-('RMNFNC62M19H501Z', 'Francesco', 'Romano', '1962-08-19', 'maschio', 'Palermo'),
-('RNLLSS90C12H501B', 'Alessia', 'Rinaldi', '1990-03-12', 'femmina', 'Firenze'),
-('MRNNDR83L22H501H', 'Andrea', 'Marini', '1983-07-22', 'maschio', 'Genova'),
-('CNTFRC71B14H501X', 'Federica', 'Conti', '1971-02-14', 'femmina', 'Venezia'),
-('FBBDVD69D01H501Q', 'Davide', 'Fabbri', '1969-04-01', 'maschio', 'Bologna'),
-('PLGELS87H18H501M', 'Elisa', 'Pellegrini', '1987-06-18', 'femmina', 'Verona'),
-('GRSMTT93P09H501E', 'Matteo', 'Grassi', '1993-09-09', 'maschio', 'Trieste'),
-('BRBSRN65T27H501Y', 'Serena', 'Barbieri', '1965-12-27', 'femmina', 'Cagliari'),
-('FRRGGR58E02H501V', 'Giorgio', 'Ferrari', '1958-05-02', 'maschio', 'Perugia'),
-('CSTNNA75C19H501R', 'Anna', 'Costa', '1975-03-19', 'femmina', 'Ancona'),
-('VLLMSS81L29H501K', 'Massimo', 'Villa', '1981-07-29', 'maschio', 'Trento'),
-('PZZVLN89S05H501T', 'Valentina', 'Piazza', '1989-11-05', 'femmina', 'Udine'),
-('GLLRRT74D08H501G', 'Roberto', 'Galli', '1974-04-08', 'maschio', 'Rimini'),
-('MRTGDA91M12H501P', 'Giada', 'Martini', '1991-08-12', 'femmina', 'Pisa'),
-('RCCSTF84R14H501C', 'Stefano', 'Ricci', '1984-10-14', 'maschio', 'Lecce'),
-('RLNCLD77H03H501U', 'Claudia', 'Orlandi', '1977-06-03', 'femmina', 'Messina'),
-('FRNTMS59B18H501O', 'Tommaso', 'Farina', '1959-02-18', 'maschio', 'Bolzano'),
-('DNTSLV88E09H501S', 'Silvia', 'Donati', '1988-05-09', 'femmina', 'Aosta'),
-('PGNLSN60L21H501I', 'Alessandro', 'Pagani', '1960-07-21', 'maschio', 'Reggio Calabria'),
-('CTNFDR79A17H501D', 'Federico', 'Cattaneo', '1979-01-17', 'maschio', 'Savona'),
-('MRCLRA82C04H501W', 'Laura', 'Marchetti', '1982-03-04', 'femmina', 'Forlì'),
-('RMNSMN73T23H501T', 'Simone', 'Romano', '1973-12-23', 'maschio', 'Treviso'),
-('NGRLNE94B06H501H', 'Elena', 'Negri', '1994-02-06', 'femmina', 'Siena'),
-('BTGNCL70P25H501S', 'Nicola', 'Battaglia', '1970-09-25', 'maschio', 'Bari'),
-('MNCFNC64M15H501Q', 'Francesca', 'Mancini', '1964-08-15', 'femmina', 'Vicenza'),
-('DLCLBT76H20H501L', 'Alberto', 'De Luca', '1976-06-20', 'maschio', 'Modena'),
-('MRTMTN80A08H501J', 'Martina', 'Moretti', '1980-01-08', 'femmina', 'Catania'),
-('PRSLNZ57D18H501F', 'Lorenzo', 'Parisi', '1957-04-18', 'maschio', 'Padova'),
-('GRRMNC72S11H501B', 'Monica', 'Guerra', '1972-11-11', 'femmina', 'Pescara'),
-('CRSFLP86L13H501Z', 'Filippo', 'Caruso', '1986-07-13', 'maschio', 'Ravenna'),
-('PLGCTR85P05H501K', 'Caterina', 'Pellegrini', '1985-09-05', 'femmina', 'Salerno'),
-('LNGGVN61B22H501R', 'Giovanni', 'Leone', '1961-02-22', 'maschio', 'Arezzo'),
-('VNTGBL67M14H501X', 'Gabriele', 'Ventura', '1967-08-14', 'maschio', 'Cremona'),
-('BNCLNZ11T05H501T', 'Lorenzo', 'Bianchi', '2011-12-05', 'maschio', 'Napoli'),
-('VRDMRT13H18H501R', 'Marta', 'Verdi', '2013-06-18', 'femmina', 'Torino'),
-('SPSRCR12P09H501F', 'Riccardo', 'Esposito', '2012-09-09', 'maschio', 'Firenze'),
-('RMNARR15R12H501D', 'Aurora', 'Romano', '2015-10-12', 'femmina', 'Genova'),
-('CLBTMS14A28H501L', 'Tommaso', 'Colombo', '2014-01-28', 'maschio', 'Venezia'),
-('CSTGNR16D17H501X', 'Ginevra', 'Costa', '2016-04-17', 'femmina', 'Bologna'),
-('MRNLND17M23H501K', 'Leonardo', 'Marini', '2017-08-23', 'maschio', 'Verona'),
-('RNLMME18S30H501S', 'Emma', 'Rinaldi', '2018-11-30', 'femmina', 'Palermo');
+CREATE TABLE IF NOT EXISTS Pazienti(
+    c_f VARCHAR(16) PRIMARY KEY,
+    nome VARCHAR(32) NOT NULL,
+    cognome VARCHAR(32) NOT NULL,
+    data_nascita DATE NOT NULL,
+    sesso VARCHAR(8) NOT NULL,
+    comune_nascita VARCHAR(32) NOT NULL,
+	eta INT NOT NULL
+);
+
+INSERT INTO Pazienti (c_f, nome, cognome, data_nascita, sesso, comune_nascita, eta) VALUES
+('BNCLCU80E15H501T', 'Luca', 'Bianchi', '1980-05-15', 'maschio', 'Roma', 44),
+('VRDGLI92P23H501S', 'Giulia', 'Verdi', '1992-09-23', 'femmina', 'Milano', 32),
+('RSSMRC78S07H501L', 'Marco', 'Russo', '1978-11-07', 'maschio', 'Napoli', 46),
+('SPSCIA85A24H501N', 'Chiara', 'Esposito', '1985-01-24', 'femmina', 'Torino', 39),
+('RMNFNC62M19H501Z', 'Francesco', 'Romano', '1962-08-19', 'maschio', 'Palermo', 62),
+('RNLLSS90C12H501B', 'Alessia', 'Rinaldi', '1990-03-12', 'femmina', 'Firenze', 34),
+('MRNNDR83L22H501H', 'Andrea', 'Marini', '1983-07-22', 'maschio', 'Genova', 41),
+('CNTFRC71B14H501X', 'Federica', 'Conti', '1971-02-14', 'femmina', 'Venezia', 53),
+('FBBDVD69D01H501Q', 'Davide', 'Fabbri', '1969-04-01', 'maschio', 'Bologna', 55),
+('PLGELS87H18H501M', 'Elisa', 'Pellegrini', '1987-06-18', 'femmina', 'Verona', 37),
+('GRSMTT93P09H501E', 'Matteo', 'Grassi', '1993-09-09', 'maschio', 'Trieste', 31),
+('BRBSRN65T27H501Y', 'Serena', 'Barbieri', '1965-12-27', 'femmina', 'Cagliari', 58),
+('FRRGGR58E02H501V', 'Giorgio', 'Ferrari', '1958-05-02', 'maschio', 'Perugia', 66),
+('CSTNNA75C19H501R', 'Anna', 'Costa', '1975-03-19', 'femmina', 'Ancona', 49),
+('VLLMSS81L29H501K', 'Massimo', 'Villa', '1981-07-29', 'maschio', 'Trento', 43),
+('PZZVLN89S05H501T', 'Valentina', 'Piazza', '1989-11-05', 'femmina', 'Udine', 35),
+('GLLRRT74D08H501G', 'Roberto', 'Galli', '1974-04-08', 'maschio', 'Rimini', 50),
+('MRTGDA91M12H501P', 'Giada', 'Martini', '1991-08-12', 'femmina', 'Pisa', 33),
+('RCCSTF84R14H501C', 'Stefano', 'Ricci', '1984-10-14', 'maschio', 'Lecce', 40),
+('RLNCLD77H03H501U', 'Claudia', 'Orlandi', '1977-06-03', 'femmina', 'Messina', 47),
+('FRNTMS59B18H501O', 'Tommaso', 'Farina', '1959-02-18', 'maschio', 'Bolzano', 65),
+('DNTSLV88E09H501S', 'Silvia', 'Donati', '1988-05-09', 'femmina', 'Aosta', 36),
+('PGNLSN60L21H501I', 'Alessandro', 'Pagani', '1960-07-21', 'maschio', 'Reggio Calabria', 64),
+('CTNFDR79A17H501D', 'Federico', 'Cattaneo', '1979-01-17', 'maschio', 'Savona', 45),
+('MRCLRA82C04H501W', 'Laura', 'Marchetti', '1982-03-04', 'femmina', 'Forlì', 42),
+('RMNSMN73T23H501T', 'Simone', 'Romano', '1973-12-23', 'maschio', 'Treviso', 50),
+('NGRLNE94B06H501H', 'Elena', 'Negri', '1994-02-06', 'femmina', 'Siena', 30),
+('BTGNCL70P25H501S', 'Nicola', 'Battaglia', '1970-09-25', 'maschio', 'Bari', 54),
+('MNCFNC64M15H501Q', 'Francesca', 'Mancini', '1964-08-15', 'femmina', 'Vicenza', 60),
+('DLCLBT76H20H501L', 'Alberto', 'De Luca', '1976-06-20', 'maschio', 'Modena', 48),
+('MRTMTN80A08H501J', 'Martina', 'Moretti', '1980-01-08', 'femmina', 'Catania', 44),
+('PRSLNZ57D18H501F', 'Lorenzo', 'Parisi', '1957-04-18', 'maschio', 'Padova', 67),
+('GRRMNC72S11H501B', 'Monica', 'Guerra', '1972-11-11', 'femmina', 'Pescara', 52),
+('CRSFLP86L13H501Z', 'Filippo', 'Caruso', '1986-07-13', 'maschio', 'Ravenna', 38),
+('PLGCTR85P05H501K', 'Caterina', 'Pellegrini', '1985-09-05', 'femmina', 'Salerno', 39),
+('LNGGVN61B22H501R', 'Giovanni', 'Leone', '1961-02-22', 'maschio', 'Arezzo', 63),
+('VNTGBL67M14H501X', 'Gabriele', 'Ventura', '1967-08-14', 'maschio', 'Cremona', 57),
+('BNCLNZ11T05H501T', 'Lorenzo', 'Bianchi', '2011-12-05', 'maschio', 'Napoli', 13),
+('VRDMRT13H18H501R', 'Marta', 'Verdi', '2013-06-18', 'femmina', 'Torino', 11),
+('SPSRCR12P09H501F', 'Riccardo', 'Esposito', '2012-09-09', 'maschio', 'Firenze', 12),
+('RMNARR15R12H501D', 'Aurora', 'Romano', '2015-10-12', 'femmina', 'Genova', 9),
+('CLBTMS14A28H501L', 'Tommaso', 'Colombo', '2014-01-28', 'maschio', 'Venezia', 10),
+('CSTGNR16D17H501X', 'Ginevra', 'Costa', '2016-04-17', 'femmina', 'Bologna', 8),
+('MRNLND17M23H501K', 'Leonardo', 'Marini', '2017-08-23', 'maschio', 'Verona', 7),
+('RNLMME18S30H501S', 'Emma', 'Rinaldi', '2018-11-30', 'femmina', 'Palermo', 6);
+
+CREATE TABLE IF NOT EXISTS Camere(
+    id_camera INT PRIMARY KEY,
+    nome_reparto VARCHAR(32) NOT NULL,
+    massimo_letti INT NOT NULL,
+    FOREIGN KEY (nome_reparto) REFERENCES Reparti(nome_reparto)
+);
 
 INSERT INTO Camere (id_camera, nome_reparto, massimo_letti) VALUES
 (1001, 'Cardiologia', 3),
@@ -120,6 +172,16 @@ INSERT INTO Camere (id_camera, nome_reparto, massimo_letti) VALUES
 (1027, 'Urologia', 4),
 (1028, 'Urologia', 3),
 (1029, 'Urologia', 2);
+
+CREATE TABLE IF NOT EXISTS Ricoveri(
+    id_ricovero INT PRIMARY KEY,
+    data_ricovero DATE NOT NULL,
+    ora_ricovero TIME NOT NULL,
+    stato_ricovero VARCHAR(32) NOT NULL,
+    id_camera INT NOT NULL,
+    cf_ricoverato VARCHAR(16) NOT NULL,
+    FOREIGN KEY (cf_ricoverato) REFERENCES Pazienti(c_f)
+);
 
 INSERT INTO Ricoveri (id_ricovero, data_ricovero, ora_ricovero, stato_ricovero, id_camera, cf_ricoverato) VALUES
 (200, '2024-11-01', '08:30:00', 'grave', 1001, 'BNCLCU80E15H501T' ),
@@ -167,8 +229,18 @@ INSERT INTO Ricoveri (id_ricovero, data_ricovero, ora_ricovero, stato_ricovero, 
 (242, '2024-12-17', '20:30:00', 'grave', 1005, 'CSTGNR16D17H501X'),
 (243, '2024-12-18', '22:00:00', 'in pericolo di vita', 1013, 'MRNLND17M23H501K'),
 (244, '2024-12-18', '22:30:00', 'non grave', 1014,'RNLMME18S30H501S');
---INSERT INTO Pazienti (nome, cognome, data_di_nascita, c_f, sesso, comune_di_nascita) VALUES -- da aggiungere contatti
 
+
+CREATE TABLE IF NOT EXISTS Accompagnatori(
+    cf_accompagnatore VARCHAR(16) PRIMARY KEY,
+    nome VARCHAR(32) NOT NULL,
+    cognome VARCHAR(32) NOT NULL,
+    data_nascita DATE NOT NULL,
+    parentela VARCHAR(32) NOT NULL,
+    contatti VARCHAR(64) NOT NULL,
+    cf_paziente VARCHAR(16) NOT NULL,
+    FOREIGN KEY (cf_paziente) REFERENCES Pazienti(c_f)
+);
 
 INSERT INTO Accompagnatori (cf_accompagnatore, nome, cognome, data_nascita, parentela, contatti, cf_paziente) VALUES
 ('BNCLRN75C10H501L', 'Lorenzo', 'Bianchi', '1975-03-10', 'padre', '3351122334', 'BNCLNZ11T05H501T'),
@@ -180,6 +252,17 @@ INSERT INTO Accompagnatori (cf_accompagnatore, nome, cognome, data_nascita, pare
 ('PLZANN88I10H501Z', 'Anna', 'Palazzi', '1988-09-10', 'sorella maggiore', '3417788990', 'MRNLND17M23H501K'),
 ('TRCMRC92L05H501S', 'Marco', 'Tricarico', '1992-10-05', 'fratello maggiore', '3428899001', 'RNLMME18S30H501S');
 
+
+CREATE TYPE gruppo AS ENUM ('A+','A-','B+','B-','0+','0-','AB+','AB-');
+
+CREATE TABLE IF NOT EXISTS Cartella_clinica(
+    id_cartella INT PRIMARY KEY,
+    allergie VARCHAR(64),
+    patologie VARCHAR(64),
+    gruppo_sanguigno GRUPPO NOT NULL,
+    cf_paziente VARCHAR(16) NOT NULL,
+    FOREIGN KEY (cf_paziente) REFERENCES Pazienti(c_f)
+);
 
 INSERT INTO Cartella_clinica (id_cartella, allergie, patologie, gruppo_sanguigno, cf_paziente) VALUES
 (301, 'Polline', 'Diabete tipo 2', 'A+', 'BNCLCU80E15H501T'),
@@ -228,6 +311,11 @@ INSERT INTO Cartella_clinica (id_cartella, allergie, patologie, gruppo_sanguigno
 (344, NULL, 'Sindrome da anticorpi antifosfolipidi', 'B+', 'MRNLND17M23H501K'),
 (345, NULL, 'Peritonite', 'A-', 'RNLMME18S30H501S');
 
+CREATE TABLE IF NOT EXISTS Sale_operatorie(
+    id_sala INT PRIMARY KEY,
+    max_persone INT NOT NULL,
+    livello_attrezzatura VARCHAR(16) NOT NULL
+);
 
 INSERT INTO Sale_operatorie (id_sala, max_persone, livello_attrezzatura) VALUES
 (2001, 6, 'alto'),
@@ -240,6 +328,18 @@ INSERT INTO Sale_operatorie (id_sala, max_persone, livello_attrezzatura) VALUES
 (2008, 7, 'alto'),
 (2009, 6, 'medio'),
 (2010, 3, 'basso');
+
+CREATE TABLE IF NOT EXISTS Operazioni(
+    id_operazione INT PRIMARY KEY,
+    durata VARCHAR(32) NOT NULL,
+    esito VARCHAR(32) NOT NULL,  
+    data_ DATE NOT NULL,
+    sala INT NOT NULL,
+    orario_inizio TIME NOT NULL,
+    id_cartella INT NOT NULL,
+    FOREIGN KEY (sala) REFERENCES Sale_operatorie(id_sala),
+    FOREIGN KEY (id_cartella) REFERENCES Cartella_clinica(id_cartella)   
+);
 
 INSERT INTO Operazioni (id_operazione, durata, esito, data_, sala, orario_inizio, id_cartella) VALUES
 (501, 5, 'positivo', '2024-11-01', 2001, '08:30:00', 301),
@@ -257,6 +357,15 @@ INSERT INTO Operazioni (id_operazione, durata, esito, data_, sala, orario_inizio
 (513, 4, 'positivo', '2024-11-13', 2003, '10:30:00', 316),
 (514, 6, 'positivo', '2024-11-14', 2004, '11:00:00', 344),
 (515, 2, 'negativo', '2024-11-15', 2005, '12:30:00', 345);
+
+CREATE TABLE IF NOT EXISTS Farmaci(
+    id_farmaco INT PRIMARY KEY,
+    nome VARCHAR(32) NOT NULL,
+    dosaggio VARCHAR(32) NOT NULL,
+    controindicazioni VARCHAR(64) NOT NULL,
+    data_scadenza DATE NOT NULL,
+    allergeni VARCHAR(64)
+);
 
 INSERT INTO Farmaci (id_farmaco, nome, dosaggio, controindicazioni, data_scadenza, allergeni) VALUES
 (401, 'Aspirina', '500 m.g.', 'Soggetti con ulcera gastrica, insufficienza renale', '2026-05-12', 'Acido acetilsalicilico'),
@@ -321,6 +430,14 @@ INSERT INTO Farmaci (id_farmaco, nome, dosaggio, controindicazioni, data_scadenz
 (460, 'Heparina', '5000 U.I.', 'Non somministrare a pazienti con emorragie attive', '2036-04-28', 'Anticoagulanti');
 
 
+CREATE TABLE IF NOT EXISTS Cure(
+    id_cura INT PRIMARY KEY,
+    badge INT NOT NULL,
+    id_cartella INT NOT NULL,
+    FOREIGN KEY (badge) REFERENCES Personale_medico(badge),
+    FOREIGN KEY (id_cartella) REFERENCES Cartella_clinica(id_cartella)
+);
+
 INSERT INTO Cure (id_cura, badge, id_cartella) VALUES
 (3001, 101, 301),
 (3002, 102, 302),
@@ -368,6 +485,14 @@ INSERT INTO Cure (id_cura, badge, id_cartella) VALUES
 (3044, 114, 344),
 (3045, 115, 345);
 
+
+CREATE TABLE IF NOT EXISTS Lista_operazioni(
+    badge INT,
+    id_operazione INT,
+    PRIMARY KEY(badge, id_operazione),
+    FOREIGN KEY (badge) REFERENCES Personale_medico(badge),
+    FOREIGN KEY (id_operazione) REFERENCES Operazioni(id_operazione)
+);
 
 INSERT INTO Lista_operazioni (badge, id_operazione) VALUES
 (101, 501),
@@ -421,6 +546,14 @@ INSERT INTO Lista_operazioni (badge, id_operazione) VALUES
 (107, 507),
 (109, 508),
 (111, 509);
+
+CREATE TABLE IF NOT EXISTS Lista_farmaci(
+    id_cura INT,
+    id_farmaco INT,
+    PRIMARY KEY (id_cura, id_farmaco),
+    FOREIGN KEY (id_cura) REFERENCES Cure(id_cura),
+    FOREIGN KEY (id_farmaco) REFERENCES Farmaci(id_farmaco)
+);
 
 INSERT INTO Lista_farmaci (id_cura, id_farmaco) VALUES
 (3001, 401),
