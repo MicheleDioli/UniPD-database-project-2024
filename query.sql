@@ -25,12 +25,32 @@ SELECT
     cc.nome, 
     cc.badge,
     rd.nome
-FROM Ricoveri_dopo, Chirurgi_capo
-WHERE cc.cf = rd.c_f
+FROM Chirurgi_capo cc, Ricoveri_dopo rd
+WHERE cc.cf = rd.c_f;
 
---query 2: stampa i nomi di tutti i pazienti di un reparto scelto da utente a cui sono stati prescritti farmaci
+--query 2: stampa i nomi e cognomi di tutti i pazienti ricoverati in un reparto scelto da utente a cui sono stati prescritti farmaci
 --e che hanno un allergia 
+WITH Pazienti_selezionati AS (
+    SELECT DISTINCT
+        p.c_f,
+    FROM Pazineti p, Cartella_clinica cl
+    JOIN Lista_farmaci lf ON lf.id_cura = cl.id_cura
+    WHERE cl.allergie != NULL AND cl.cf_paziente = p.c_f
+),
 
+WITH pazienti_reparti AS (
+    SELECT 
+        r.cf_ricoverato,
+    FROM Ricoveri r
+    WHERE Camere.id_camera = r.id_camera AND Camere.nome_reparto = "Oncologia"
+    GROUP BY nome_reparto
+),
+
+SELECT
+    p.nome
+    p.cognome
+FROM Pazienti p
+WHERE Pazienti_reparto.cf_ricoverato = p.c_f
 
 --query 3: stampa nome e grado di parentela degli accompagnatori (e cf del paziente accompagnato) di pazienti che hanno un 
 --gruppo sanguigno scelto da utente e che siano ricoverati in una camera che ha più di tre posti letto  
