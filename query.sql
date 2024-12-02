@@ -53,7 +53,16 @@ FROM Pazienti p
 WHERE Pazienti_reparto.cf_ricoverato = p.c_f
 
 --query 3: stampa nome e grado di parentela degli accompagnatori (e cf del paziente accompagnato) di pazienti che hanno un 
---gruppo sanguigno scelto da utente e che siano ricoverati in una camera che ha più di tre posti letto  
+--gruppo sanguigno scelto da utente e che sono in una camra con + di 3 posti letto
+WITH stanze_posti AS (
+	SELECT cf_ricoverato
+	FROM Ricoveri, Camere
+	WHERE Ricoveri.id_camera = Camere.id_camera AND Camere.massimo_letti >= 3
+)
+
+SELECT a.nome, a.parentela, p.c_f
+FROM Accompagnatori AS a, Pazienti AS p
+WHERE p.gruppo_sanguigno = 'A+' AND p.cf = stanze_posti.cf_ricoverato AND a.cf_accompagnato = p.c_f
 
 --query 4: stampa il badge di medici che abbiano svolto operazioni che hanno avuto esito negativo in sale operatorie con un livello 
 --di attrezzatura alto e il nome del paziente operato

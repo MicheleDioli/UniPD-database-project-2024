@@ -61,3 +61,15 @@ WHERE p.c_f IN (
 	SELECT 
 		c_f 
 		FROM Pazienti_selezionati);
+
+
+--query 3
+WITH stanze_posti AS (
+	SELECT cf_ricoverato
+	FROM Ricoveri, Camere
+	WHERE Ricoveri.id_camera = Camere.id_camera AND Camere.massimo_letti >= 3
+)
+
+SELECT a.nome, a.parentela, cf_ricoverato
+FROM Accompagnatori AS a, stanze_posti
+WHERE a.cf_paziente = stanze_posti.cf_ricoverato
