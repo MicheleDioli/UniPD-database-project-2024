@@ -40,21 +40,40 @@ WITH Pazienti_selezionati AS (
 	),
 pazienti_reparti AS (
     SELECT 
-        r.cf_ricoverato
+        r.cf_ricoverato,
+		r.data_ricovero
     FROM Ricoveri r
     JOIN Camere c ON r.id_camera = c.id_camera
     WHERE c.nome_reparto = 'Oncologia'
-    GROUP BY r.cf_ricoverato
+    ORDER BY r.data_ricovero DESC
 )
 SELECT
     p.nome,
     p.cognome,
-	o.data_
+	pr.data_ricovero
 FROM Pazienti p
 JOIN Pazienti_reparti pr ON pr.cf_ricoverato = p.c_f
-JOIN Cartella_clinica c ON c.cf_paziente = p.c_f
-JOIN Operazioni o ON o.id_cartella = c.id_cartella
 WHERE p.c_f IN (
 	SELECT 
 		c_f 
 		FROM Pazienti_selezionati);
+
+--
+
+WITH stanze_posti AS (
+	SELECT cf_ricoverato
+	FROM Ricoveri, Camere
+	WHERE Ricoveri.id_camera = Camere.id_camera AND Camere.massimo_letti >= 3
+)
+
+SELECT 
+a.nome,
+a.parentela,
+p.c_f
+FROM Accompagnatori a
+JOIN Pazienti p ON a.cf_paziente = p.c_f
+JOIN Cartella_clinica cl ON cl.cf_paziente = p.c_f
+WHERE cl.gruppo_sanguigno = 'A+' AND p.c_f IN (
+	SELECT
+	cf_ricoverato 
+	FROM stanze_posti);

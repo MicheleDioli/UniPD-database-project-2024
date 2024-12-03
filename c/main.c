@@ -11,7 +11,7 @@ int main() {
   char x = '0';
   char input[10];
   
-  void (*query[])(PGconn *) = {Query1};
+  void (*query[])(PGconn *) = {Query1,Query2};
 
   char y = 0;
 

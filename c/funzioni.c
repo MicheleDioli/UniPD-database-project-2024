@@ -12,20 +12,19 @@ void enable_echo_mode(const struct termios *old_termios) {
     tcsetattr(STDIN_FILENO, TCSANOW, old_termios); 
 }
 
-
-void stampaCorsi(){
+void stampaReparti(){
   
-  char *prodotti[] = {
-    "Boxe","Crossfit","Fitness","Pilates","Sollevamento Pesi","Spinning","Yoga","Zumba"
+  char *reparti[] = {
+    "Cardiologia","Oncologia","Pediatria","Ortopedia","Ostetricia","Neurologia","Gastroenterologia","Dermatologia","Urologia"
   };
   
-  int numProdotti = sizeof(prodotti) / sizeof(prodotti[0]);
-  int righe = (numProdotti +  2) / 3; 
+  int numReparti = sizeof(reparti) / sizeof(reparti[0]);
+  int righe = (numReparti +  2) / 3; 
   for(int r = 0; r < righe; r++) {
     for(int c = 0; c < 3; c++) {
       int indice = r + c * righe;
-      if(indice < numProdotti) {
-	printf("%-3d) %-25s", indice + 1, prodotti[indice]);
+      if(indice < numReparti) {
+	printf("%-3d) %-25s", indice + 1, reparti[indice]);
       } else {
 	printf("%-28s", "");
       }
@@ -200,6 +199,86 @@ void Query1(PGconn *conn){
     "rd.nome_paziente "
 "FROM Chirurgi_capo cc " 
 "JOIN Ricoveri_dopo rd ON rd.c_f = cc.cf_paziente; ";
+
+  PGresult *res = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
+    if (check(res,conn) == 1)
+      return;
+    printQuery(res);
+    PQclear(res);
+}
+
+
+
+void Query2(PGconn* conn){
+
+  char scelta[32];
+  int valore;
+  printf("Seleziona il reparto\n");
+  stampaReparti();
+  printf("\n->");
+  scanf("%d",&valore);
+  while (getchar() != '\n' && getchar() != EOF);
+  
+  while(valore < 1 || valore > 9){
+    printf("Seleziona il reparto(1 - 9)\n");
+    stampaReparti();
+    printf("\n->");
+    scanf("%d",&valore);
+    while (getchar() != '\n' && getchar() != EOF);
+  }
+
+  if (valore == 1) 
+    strcpy(scelta, "Cardiologia");
+  else if (valore == 2) 
+    strcpy(scelta, "Oncologia");
+  else if (valore == 3) 
+    strcpy(scelta, "Pediatria");
+  else if (valore == 4) 
+    strcpy(scelta, "Ortopedia");
+  else if (valore == 5) 
+    strcpy(scelta, "Ostetricia");
+  else if (valore == 6) 
+    strcpy(scelta, "Neurologia");
+  else if (valore == 7) 
+    strcpy(scelta, "Gastroenterologia");
+  else if (valore == 8)
+    strcpy(scelta,"Dermatologia");
+  else if (valore == 9)
+    strcpy(scelta,"Urologia");
+  
+  const char *paramValues[1];
+  paramValues[0] = scelta;
+
+  const char *query = "WITH Pazienti_selezionati AS ( "
+    "SELECT "
+        "p.c_f, "
+        "p.nome, "
+        "p.cognome "
+    "FROM Pazienti p "
+    "JOIN Cartella_clinica cl ON cl.cf_paziente = p.c_f "
+	"JOIN Lista_farmaci lf ON cl.id_cartella = cl.id_cartella "
+    "WHERE cl.allergie IS NOT NULL "
+	"), "
+"pazienti_reparti AS ( "
+    "SELECT "
+        "r.cf_ricoverato, "
+        "r.data_ricovero "
+    "FROM Ricoveri r "
+    "JOIN Camere c ON r.id_camera = c.id_camera "
+    "WHERE c.nome_reparto = $1 " 
+    "ORDER BY r.data_ricovero DESC "
+") "
+"SELECT "
+    "p.nome, "
+    "p.cognome, "
+	"r.data_ricovero "
+"FROM Pazienti p "
+"JOIN Pazienti_reparti pr ON pr.cf_ricoverato = p.c_f " 
+"WHERE p.c_f IN ( "
+	"SELECT " 
+		"c_f "
+		"FROM Pazienti_selezionati);";
+
   PGresult *res = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
     if (check(res,conn) == 1)
       return;
@@ -269,4 +348,17 @@ const char *paramValues[2];
   printQuery(res);
   PQclear(res);
 }
+*/
+
+
+/*
+
+void Query(PGconn* conn){
+  const char query = "";
+  PGresult *res = PQexec(conn, query);
+  if (check(res,conn) == 1)
+    return;
+  printQuery(res);
+  PQclear(res);
+} 
 */

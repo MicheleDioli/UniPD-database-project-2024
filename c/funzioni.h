@@ -13,6 +13,7 @@ int checkConnesione(PGconn *);
 int check(PGresult *, PGconn *);
 
 void Query1(PGconn *);
+void Query2(PGconn *);
 
 void disable_echo_mode(struct termios*);
 
