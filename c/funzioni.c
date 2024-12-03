@@ -127,7 +127,87 @@ int check(PGresult *P, PGconn *c) {
   }
   return 0;
 }
+void Query1(PGconn *conn){
 
+  int scelta;
+  char data[32];
+  char anno[8];
+  char mese[8];
+  char giorno[8];
+  char turututuro[4] ="-";
+
+  printf("digitare un anno\n->");
+ 
+  scanf("%d",&scelta);
+  
+  while(scelta < 2000 || scelta >2030){
+      printf("digitare un anno [2000-2030]\n->");
+      scanf("%d",&scelta);
+  }
+  snprintf(anno, sizeof(anno), "%d", scelta);
+  while ((getchar()) != '\n' && getchar() != EOF);
+
+
+  printf("digitare un mese\n->");
+  scanf("%d",&scelta);
+  
+  while(scelta < 1 || scelta >12){
+      printf("digitare un mese [1-12]\n->");
+      scanf("%d",&scelta);
+  }
+  snprintf(mese, sizeof(mese), "%d", scelta);
+  while ((getchar()) != '\n' && getchar() != EOF);
+  printf("digitare un giorno[1-31]\n->");
+  scanf("%d",&scelta);
+    while(scelta < 1 || scelta >31){
+      printf("digitare un anno [1-31]\n->");
+      scanf("%d",&scelta);
+  }
+  snprintf(giorno, sizeof(anno), "%d", scelta);
+  while ((getchar()) != '\n' && getchar() != EOF);
+  strcpy(data, anno);
+  strcat(data, turututuro);
+  strcat(data, mese);
+  strcat(data, turututuro),
+  strcat(data, giorno);
+  const char *paramValues[1];
+  paramValues[0] = data;
+
+  const char *query = "WITH Ricoveri_dopo AS ("
+    "SELECT " 
+        "p.c_f, "
+        "p.nome AS nome_paziente "
+    "FROM Pazienti p "
+    "JOIN Ricoveri r ON p.c_f = r.cf_ricoverato "
+    "WHERE r.data_ricovero >= $1 "
+"),"
+
+"Chirurgi_capo AS ( "
+    "SELECT "
+        "p.badge, " 
+       "p.nome AS nome_chirurgo, "
+        "c.cf_paziente "
+    "FROM Personale_medico p "
+    "JOIN Lista_operazioni lo ON p.badge = lo.badge "
+    "JOIN Operazioni o ON o.id_operazione = lo.id_operazione "
+    "JOIN Cartella_clinica c ON o.id_cartella = c.id_cartella  "
+   "WHERE p.capo_reparto = TRUE "
+")"
+
+"SELECT " 
+    "cc.nome_chirurgo, " 
+    "cc.badge, "
+    "rd.nome_paziente "
+"FROM Chirurgi_capo cc " 
+"JOIN Ricoveri_dopo rd ON rd.c_f = cc.cf_paziente; ";
+  PGresult *res = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
+    if (check(res,conn) == 1)
+      return;
+    printQuery(res);
+    PQclear(res);
+}
+
+/*
 void Query1(PGconn *conn){
 
   int valore;
@@ -189,3 +269,4 @@ const char *paramValues[2];
   printQuery(res);
   PQclear(res);
 }
+*/

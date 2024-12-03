@@ -1,8 +1,8 @@
 #include "funzioni.h"
-#define PG_HOST "postgresql"
-#define PG_USER "mdioli"
+#define PG_HOST "localhost"
+#define PG_USER "postgres"
 #define PG_DB "project"
-#define PG_PASS "upsie"
+#define PG_PASS "aa"
 #define PG_PORT 5432
 
 int main() {
