@@ -12,26 +12,22 @@ void enable_echo_mode(const struct termios *old_termios) {
     tcsetattr(STDIN_FILENO, TCSANOW, old_termios); 
 }
 
-void stampaReparti(){
-  
-  char *reparti[] = {
-    "Cardiologia","Oncologia","Pediatria","Ortopedia","Ostetricia","Neurologia","Gastroenterologia","Dermatologia","Urologia"
-  };
-  
-  int numReparti = sizeof(reparti) / sizeof(reparti[0]);
-  int righe = (numReparti +  2) / 3; 
-  for(int r = 0; r < righe; r++) {
-    for(int c = 0; c < 3; c++) {
-      int indice = r + c * righe;
-      if(indice < numReparti) {
-	printf("%-3d) %-25s", indice + 1, reparti[indice]);
-      } else {
-	printf("%-28s", "");
-      }
+void stampa(char **st, int numC) {
+    int righe = (numC + 2) / 3; 
+
+    for (int r = 0; r < righe; r++) {
+        for (int c = 0; c < 3; c++) {
+            int indice = r + c * righe;
+            if (indice < numC) {
+                printf("%-3d) %-25s", indice + 1, st[indice]);
+            } else {
+                printf("%-28s", ""); 
+            }
+        }
+        printf("\n");
     }
-    printf("\n");
-  }
 }
+
 
 void listaQuer() {
   printf("Query 1: Media e massimo stipendio per gruppo di dipendenti\n");
@@ -210,18 +206,21 @@ void Query1(PGconn *conn){
 
 
 void Query2(PGconn* conn){
-
+  char *stringa[] = {
+      "Cardiologia","Oncologia","Pediatria","Ortopedia","Ostetricia","Neurologia","Gastroenterologia","Dermatologia","Urologia"
+    };
+  int n = sizeof(stringa) / sizeof(stringa[0]);
   char scelta[32];
   int valore;
   printf("Seleziona il reparto\n");
-  stampaReparti();
+  stampa(stringa,n);
   printf("\n->");
   scanf("%d",&valore);
   while (getchar() != '\n' && getchar() != EOF);
   
   while(valore < 1 || valore > 9){
     printf("Seleziona il reparto(1 - 9)\n");
-    stampaReparti();
+    stampa(stringa,n);
     printf("\n->");
     scanf("%d",&valore);
     while (getchar() != '\n' && getchar() != EOF);
@@ -273,7 +272,7 @@ void Query2(PGconn* conn){
     "p.cognome, "
 	"r.data_ricovero "
 "FROM Pazienti p "
-"JOIN Pazienti_reparti pr ON pr.cf_ricoverato = p.c_f " 
+"JOIN Pazienti_reparti r ON r.cf_ricoverato = p.c_f " 
 "WHERE p.c_f IN ( "
 	"SELECT " 
 		"c_f "
@@ -285,6 +284,72 @@ void Query2(PGconn* conn){
     printQuery(res);
     PQclear(res);
 }
+
+void Query3(PGconn* conn){
+
+    char *stringa[] = {
+      "A-","A-","B+","B-","AB+","AB-","0+","0-"
+    };
+  int n = sizeof(stringa) / sizeof(stringa[0]);
+  char scelta[32];
+  int valore;
+  printf("Seleziona il Gruppo sanguigno\n");
+  stampa(stringa,n);
+  printf("\n->");
+  scanf("%d",&valore);
+  while (getchar() != '\n' && getchar() != EOF);
+  
+  while(valore < 1 || valore > 8){
+    printf("Seleziona il Gruppo sanguigno(1 - 8)\n");
+    stampa(stringa,n);
+    printf("\n->");
+    scanf("%d",&valore);
+    while (getchar() != '\n' && getchar() != EOF);
+  }
+
+  if (valore == 1) 
+    strcpy(scelta, "A+");
+  else if (valore == 2) 
+    strcpy(scelta, "A-");
+  else if (valore == 3) 
+    strcpy(scelta, "B+");
+  else if (valore == 4) 
+    strcpy(scelta, "B-");
+  else if (valore == 5) 
+    strcpy(scelta, "AB+");
+  else if (valore == 6) 
+    strcpy(scelta, "AB-");
+  else if (valore == 7) 
+    strcpy(scelta, "0+");
+  else if (valore == 8)
+    strcpy(scelta,"0-");
+  
+  const char *paramValues[1];
+  paramValues[0] = scelta;
+  const char *query = "WITH stanze_posti AS ( "
+	"SELECT cf_ricoverato "
+	"FROM Ricoveri, Camere "
+	"WHERE Ricoveri.id_camera = Camere.id_camera AND Camere.massimo_letti >= 3 "
+") "
+
+"SELECT " 
+"a.nome, "
+"a.parentela, "
+"p.c_f "
+"FROM Accompagnatori a "
+"JOIN Pazienti p ON a.cf_paziente = p.c_f "
+"JOIN Cartella_clinica cl ON cl.cf_paziente = p.c_f "
+"WHERE cl.gruppo_sanguigno = $1 AND p.c_f IN ( "
+	"SELECT "
+	"cf_ricoverato "
+	"FROM stanze_posti);";
+
+  PGresult *res = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
+    if (check(res,conn) == 1)
+      return;
+    printQuery(res);
+    PQclear(res);
+} 
 
 /*
 void Query1(PGconn *conn){

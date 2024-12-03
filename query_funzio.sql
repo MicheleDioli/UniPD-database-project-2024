@@ -26,7 +26,7 @@ SELECT
 FROM Chirurgi_capo cc 
 JOIN Ricoveri_dopo rd ON rd.c_f = cc.cf_paziente;
 
---
+-- 2
 
 WITH Pazienti_selezionati AS (
     SELECT 
@@ -58,7 +58,7 @@ WHERE p.c_f IN (
 		c_f 
 		FROM Pazienti_selezionati);
 
---
+-- 3
 
 WITH stanze_posti AS (
 	SELECT cf_ricoverato
@@ -78,46 +78,24 @@ WHERE cl.gruppo_sanguigno = 'A+' AND p.c_f IN (
 	cf_ricoverato 
 	FROM stanze_posti);
 
---
-
-WITH operazioni_n AS(
-	SELECT
-		id_operazione,
-		id_cartella
-		FROM Operazioni 
-		WHERE Operazioni.esito = 'negativo'
-)
-
-SELECT	
-	p.badge,
-	po.nome
-FROM Personale_medico p
-JOIN Lista_operazioni lo ON p.badge = lo.badge
-JOIN Operazioni o ON o.id_operazione = lo.id_operazione
-JOIN Cartella_clinica cl ON cl.id_cartella = o.id_cartella
-JOIN Pazienti po ON po.c_f = cl.cf_paziente
-WHERE 
-	cl.id_cartella IN(
-	SELECT id_cartella 
-	FROM operazioni_n
-	);
-
---
+-- 4
 
 WITH Personale_n AS (
-    SELECT p.nome, 
-           COUNT(*) AS conta
+    SELECT p.nome, r.c_f, p.badge
     FROM Personale_medico p
     JOIN Lista_operazioni l ON l.badge = p.badge
     JOIN Operazioni o ON o.id_operazione = l.id_operazione
     JOIN Sale_operatorie so ON so.id_sala = o.sala
+    JOIN Cartella_clinica cl ON cl.id_cartella = o.id_cartella
+    JOIN Pazienti r ON r.c_f = cl.cf_paziente
     WHERE o.esito = 'negativo' 
       AND so.livello_attrezzatura = 'basso'
-    GROUP BY p.nome
-    ORDER BY conta DESC
 )
+
 SELECT p.nome,
        p.cognome,
-       p.badge
+       p.badge,
+       pn.c_f
 FROM Personale_medico p
-JOIN Personale_n pn ON p.nome = pn.nome;
+JOIN Personale_n pn ON p.badge = pn.badge
+WHERE pn.c_f IN (SELECT r.c_f FROM Personale_n r)
