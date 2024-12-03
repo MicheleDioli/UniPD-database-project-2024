@@ -77,3 +77,47 @@ WHERE cl.gruppo_sanguigno = 'A+' AND p.c_f IN (
 	SELECT
 	cf_ricoverato 
 	FROM stanze_posti);
+
+--
+
+WITH operazioni_n AS(
+	SELECT
+		id_operazione,
+		id_cartella
+		FROM Operazioni 
+		WHERE Operazioni.esito = 'negativo'
+)
+
+SELECT	
+	p.badge,
+	po.nome
+FROM Personale_medico p
+JOIN Lista_operazioni lo ON p.badge = lo.badge
+JOIN Operazioni o ON o.id_operazione = lo.id_operazione
+JOIN Cartella_clinica cl ON cl.id_cartella = o.id_cartella
+JOIN Pazienti po ON po.c_f = cl.cf_paziente
+WHERE 
+	cl.id_cartella IN(
+	SELECT id_cartella 
+	FROM operazioni_n
+	);
+
+--
+
+WITH Personale_n AS (
+    SELECT p.nome, 
+           COUNT(*) AS conta
+    FROM Personale_medico p
+    JOIN Lista_operazioni l ON l.badge = p.badge
+    JOIN Operazioni o ON o.id_operazione = l.id_operazione
+    JOIN Sale_operatorie so ON so.id_sala = o.sala
+    WHERE o.esito = 'negativo' 
+      AND so.livello_attrezzatura = 'basso'
+    GROUP BY p.nome
+    ORDER BY conta DESC
+)
+SELECT p.nome,
+       p.cognome,
+       p.badge
+FROM Personale_medico p
+JOIN Personale_n pn ON p.nome = pn.nome;
