@@ -30,12 +30,9 @@ void stampa(char **st, int numC) {
 
 
 void listaQuer() {
-  printf("Query 1: Media e massimo stipendio per gruppo di dipendenti\n");
-  printf("Query 2: Personal trainer e abbonati per corso scelto\n");
-  printf("Query 3: Statistiche sui partecipanti ai corsi settimanali\n");
-  printf("Query 4: endite e percentuale totale per ciascun dipendente\n");
-  printf("Query 5: Vendite e dettagli per dipendenti con più di n vendite\n");
-  printf("Query 6: Trova prodotti più costosi acquistati almeno n volte.\n");
+  printf("Query 1:capi chirurghi e pazienti ricoverati dopo data scelta\n.");
+  printf("Query 2: Pazienti di un reparto scelto, che sono allergici e le date di ricovero ordinate.\n");
+  printf("Query 3: Accompagnatori pazienti con gruppo sanguigno scelto e in stanze grandi (# letti > 3)\n");
 }
 
 void stampaElenco() {
