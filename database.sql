@@ -333,7 +333,8 @@ INSERT INTO Sale_operatorie (id_sala, max_persone, livello_attrezzatura) VALUES
 
 CREATE TABLE IF NOT EXISTS Operazioni(
     id_operazione INT PRIMARY KEY,
-    durata VARCHAR(32) NOT NULL,
+    durata INT NOT NULL,
+    nome_operazione VARCHAR(64) NOT NULL,
     esito VARCHAR(32) NOT NULL,  
     data_ DATE NOT NULL,
     sala INT NOT NULL,

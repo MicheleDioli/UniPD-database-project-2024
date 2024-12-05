@@ -13,22 +13,19 @@ int main() {
   
   void (*query[])(PGconn *) = {Query1,Query2,Query3};
 
-  char y = 0;
+  char y;
 
   printf("PER INSERIRE DATI CONNESSIONE POSTGRES DIGITARE [Y/y], altrimenti modificare define nel main\n->");
 
-  scanf("%c",&y);
+  scanf("%s",&y);
 
-  while ((getchar()) != '\n' && getchar() != EOF);
-  
-  if(y == 'y' || y == 'Y'){
-
+  if(y == 0x0A || y == 'y' || y == 'Y') {
     char user[256];
     char password[256];
     char n_data[265];
     char host[256];
     int porta;
-    
+    while ((getchar()) != '\n' && getchar() != EOF);
     printf("Inserire user Postgres\n");
     scanf("%s", user);
     while ((getchar()) != '\n' && getchar() != EOF);
@@ -51,16 +48,12 @@ int main() {
     scanf("%d", &porta);
      
     sprintf(conninfo, "user=%s password=%s dbname=%s host=%s port=%d", user,password,n_data,host,porta);
-     while ((getchar()) != '\n' && getchar() != EOF);
-     
+    while ((getchar()) != '\n' && getchar() != EOF);
   }
-  
   else
     sprintf(conninfo, "user=%s password=%s dbname=%s host=%s port=%d", PG_USER,PG_PASS, PG_DB, PG_HOST, PG_PORT);
 
   PGconn *conn = PQconnectdb(conninfo); // connessione a Postgress
-
-  //while ((getchar()) != '\n' && getchar() != EOF);
   
   if (checkConnesione(conn) == 0) // controllo connesione
     printf("Connessione avvenuta\n");
@@ -87,8 +80,7 @@ int main() {
     }
 
     else {
-      int quiri = atoi(input); // concatena l'input e lo casta ad int, risolve
-                               // problema per le doppie cifre
+      int quiri = atoi(input); // concatena l'input e lo casta ad int, con il cast succedono cose
 
       if (quiri >= 1 && quiri <= 6) {
         quiri -= 1;

@@ -30,7 +30,7 @@ void stampa(char **st, int numC) {
 
 
 void listaQuer() {
-  printf("Query 1:capi chirurghi e pazienti ricoverati dopo data scelta\n.");
+  printf("Query 1: Capi chirurghi e pazienti ricoverati dopo data scelta\n.");
   printf("Query 2: Pazienti di un reparto scelto, che sono allergici e le date di ricovero ordinate.\n");
   printf("Query 3: Accompagnatori pazienti con gruppo sanguigno scelto e in stanze grandi (# letti > 3)\n");
 }
@@ -113,7 +113,7 @@ int checkConnesione(PGconn *c) {
 
 int check(PGresult *P, PGconn *c) {
   if (PQresultStatus(P) != PGRES_TUPLES_OK) {
-    fprintf(stderr, "Query fallita: %s\n", PQerrorMessage(c));
+    fprintf(stderr, "Query fallita...: %s\n", PQerrorMessage(c));
     PQclear(P);
     return 1;
   }
@@ -346,8 +346,7 @@ void Query3(PGconn* conn){
       return;
     printQuery(res);
     PQclear(res);
-} 
-
+}
 /*
 void Query1(PGconn *conn){
 
