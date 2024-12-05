@@ -14,9 +14,6 @@
 --operatorie con un livello di attrezzatura alto
 
 
-
-
-
 --query 6: stampa l'id del ricovero il numero di camera, il nome del reparto e il badge del medico che ha scitto la cartella clinica di
 --ogni paziente che sia stato ricoverato precedentemente a una data inserita da utente e stampare (in booleano tipo si o no)
 --se ha mai subito un'operazione
@@ -43,7 +40,7 @@ SELECT Camere.id_camera, COUNT(*) AS pb
 SELECT AVG(pa) AS media_stanze, AVG(pb) AS media_reparto
 FROM media, media2
 
---2 : stampa il numero di chirurgi che hanno lavorato nelle sale operatorie raggruppandoli per il livello di attrezzatura della sala (tramite id)
+--2 : stampa il numero di chirurgi che hanno lavorato nelle sale operatorie raggruppandoli per il livello di attrezzatura della sala
 SELECT so.livello_attrezzatura, COUNT(lo.badge) AS n_chirurgi
 FROM Operazioni AS o, Lista_operazioni AS lo, Sale_operatorie AS so
 WHERE lo.id_operazione = o.id_operazione AND o.sala = so.id_sala
@@ -58,13 +55,12 @@ WHERE pm.capo_reparto = 101 AND pm.reparto = rp.nome_reparto
 AND ri.id_camera = ca.id_camera AND ca.reparto = rp.nome_reparto AND stato_ricovero 
 IN 
 (
-	SELECT stato_ricovero
+    SELECT stato_ricovero
 	FROM Ricoveri, Camere
 	GROUP BY stato_ricovero
 	HAVING COUNT(*) = SELECT MAX(CONT) FROM (
 			SELECT stato_ricovero, COUNT(*) AS CONT FROM Ricoveri
 			GROUP BY stato_ricovero) AS CONTA
-	
-)
 
--- scelto un farmaco da utente tramite id conta a quanti pazienti e stato prescritto e il reparto a in cui e stato prescritto di piu
+
+-- la media dell'eta dei chirurgi e nome del paziente operato delle operazioni con piu di n chirurgi scelti da utente
