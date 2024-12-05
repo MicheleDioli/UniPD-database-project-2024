@@ -14,7 +14,7 @@
 --operatorie con un livello di attrezzatura alto
 
 
---query 5: stampa nome, effetti collaterali e numero di pazienti a cui è prescitto per ogni reparto un farmaco scleto da utente tramite id
+
 
 
 --query 6: stampa l'id del ricovero il numero di camera, il nome del reparto e il badge del medico che ha scitto la cartella clinica di
@@ -26,7 +26,26 @@
 
 --1 : calcolare la media di ricoverati nell'ospedale per camera e poi scelto un reparto da utente calcolare il numero di 
 --    ricoverati per camera in quel reparto in modo da avere un confronto
+WITH media AS(
+SELECT Camere.id_camera, COUNT(*) AS pa
+    FROM Ricoveri, Camere
+    WHERE Ricoveri.id_camera = Camere.id_camera
+	GROUP BY Camere.id_camera
+),
+media2 AS(
+SELECT Camere.id_camera, COUNT(*) AS pb
+	FROM Ricoveri, Camere
+	WHERE Ricoveri.id_camera = Camere.id_camera AND Camere.nome_reparto = 'Pediatria'
+	GROUP BY Camere.id_camera
+)
 
---2 : stampa i badge di tutti i chirurgi che hanno lavorato in una sala operatoria scelta da utente (id trmaite)
 
---3 : stampare i nome noem cognome e badge del capo reparto,e nome del reparto, del repaarto con più posti letto occupati
+SELECT AVG(pa) AS media_stanze, AVG(pb) AS media_reparto
+FROM media, media2
+
+--2 : stampa i badge di tutti i chirurgi che hanno lavorato in una sala operatoria scelta da utente (tramite id)
+
+
+--3 : stampare i nome nome, cognome e badge del capo reparto, e nome del reparto, del repaarto con piu posti letto occupati
+
+--4 : stampa nome, effetti collaterali e numero di pazienti a cui e prescritto per ogni reparto un farmaco scelto da utente tramite id
