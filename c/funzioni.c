@@ -119,88 +119,20 @@ int check(PGresult *P, PGconn *c) {
   }
   return 0;
 }
-void Query1(PGconn *conn){
-
-  int scelta;
-  char data[32];
-  char anno[8];
-  char mese[8];
-  char giorno[8];
-  char turututuro[4] ="-";
-
-  printf("digitare un anno\n->");
- 
-  scanf("%d",&scelta);
-  
-  while(scelta < 2000 || scelta >2030){
-      printf("digitare un anno [2000-2030]\n->");
-      scanf("%d",&scelta);
-  }
-  snprintf(anno, sizeof(anno), "%d", scelta);
-  while ((getchar()) != '\n' && getchar() != EOF);
-
-
-  printf("digitare un mese\n->");
-  scanf("%d",&scelta);
-  
-  while(scelta < 1 || scelta >12){
-      printf("digitare un mese [1-12]\n->");
-      scanf("%d",&scelta);
-  }
-  snprintf(mese, sizeof(mese), "%d", scelta);
-  while ((getchar()) != '\n' && getchar() != EOF);
-  printf("digitare un giorno[1-31]\n->");
-  scanf("%d",&scelta);
-    while(scelta < 1 || scelta >31){
-      printf("digitare un anno [1-31]\n->");
-      scanf("%d",&scelta);
-  }
-  snprintf(giorno, sizeof(anno), "%d", scelta);
-  while ((getchar()) != '\n' && getchar() != EOF);
-  strcpy(data, anno);
-  strcat(data, turututuro);
-  strcat(data, mese);
-  strcat(data, turututuro),
-  strcat(data, giorno);
-  const char *paramValues[1];
-  paramValues[0] = data;
-
-  const char *query = "WITH Ricoveri_dopo AS ("
-    "SELECT " 
-        "p.c_f, "
-        "p.nome AS nome_paziente "
-    "FROM Pazienti p "
-    "JOIN Ricoveri r ON p.c_f = r.cf_ricoverato "
-    "WHERE r.data_ricovero >= $1 "
-"),"
-
-"Chirurgi_capo AS ( "
-    "SELECT "
-        "p.badge, " 
-       "p.nome AS nome_chirurgo, "
-        "c.cf_paziente "
-    "FROM Personale_medico p "
-    "JOIN Lista_operazioni lo ON p.badge = lo.badge "
-    "JOIN Operazioni o ON o.id_operazione = lo.id_operazione "
-    "JOIN Cartella_clinica c ON o.id_cartella = c.id_cartella  "
-   "WHERE p.capo_reparto = TRUE "
-")"
-
-"SELECT " 
-    "cc.nome_chirurgo, " 
-    "cc.badge, "
-    "rd.nome_paziente "
-"FROM Chirurgi_capo cc " 
-"JOIN Ricoveri_dopo rd ON rd.c_f = cc.cf_paziente; ";
-
-  PGresult *res = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
-    if (check(res,conn) == 1)
-      return;
-    printQuery(res);
-    PQclear(res);
+void Query1(PGconn* conn){
+  const char *query ="SELECT "
+    "so.livello_attrezzatura, "
+    "COUNT(DISTINCT lo.badge) AS n_chirurgi "
+"FROM Sale_operatorie AS so "
+         "JOIN Operazioni AS o ON o.sala = so.id_sala "
+         "JOIN Lista_operazioni AS lo ON lo.id_operazione = o.id_operazione "
+"GROUP BY so.livello_attrezzatura; ";
+  PGresult *res = PQexec(conn, query);
+  if (check(res,conn) == 1)
+    return;
+  printQuery(res);
+  PQclear(res);
 }
-
-
 
 void Query2(PGconn* conn){
   char *stringa[] = {
@@ -245,35 +177,20 @@ void Query2(PGconn* conn){
   const char *paramValues[1];
   paramValues[0] = scelta;
 
-  const char *query = "WITH Pazienti_selezionati AS ( "
-    "SELECT "
-        "p.c_f, "
-        "p.nome, "
-        "p.cognome "
-    "FROM Pazienti p "
-    "JOIN Cartella_clinica cl ON cl.cf_paziente = p.c_f "
-	"JOIN Lista_farmaci lf ON cl.id_cartella = cl.id_cartella "
-    "WHERE cl.allergie IS NOT NULL "
-	"), "
-"pazienti_reparti AS ( "
-    "SELECT "
-        "r.cf_ricoverato, "
-        "r.data_ricovero "
-    "FROM Ricoveri r "
-    "JOIN Camere c ON r.id_camera = c.id_camera "
-    "WHERE c.nome_reparto = $1 " 
-    "ORDER BY r.data_ricovero DESC "
-") "
-"SELECT "
-    "p.nome, "
-    "p.cognome, "
-	"r.data_ricovero "
-"FROM Pazienti p "
-"JOIN Pazienti_reparti r ON r.cf_ricoverato = p.c_f " 
-"WHERE p.c_f IN ( "
-	"SELECT " 
-		"c_f "
-		"FROM Pazienti_selezionati);";
+  const char *query = "WITH media AS( "
+    "SELECT Camere.id_camera, COUNT(*) AS pa "
+    "FROM Ricoveri, Camere "
+    "WHERE Ricoveri.id_camera = Camere.id_camera "
+    "GROUP BY Camere.id_camera "
+"), "
+     "media2 AS( "
+         "SELECT Camere.id_camera, COUNT(*) AS pb "
+         "FROM Ricoveri, Camere "
+         "WHERE Ricoveri.id_camera = Camere.id_camera AND Camere.nome_reparto = $1 "
+         "GROUP BY Camere.id_camera "
+     ") "
+"SELECT ROUND(AVG(pa),2) AS media_stanze, ROUND(AVG(pb),2) AS media_reparto "
+"FROM media, media2; ";
 
   PGresult *res = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
     if (check(res,conn) == 1)
@@ -283,143 +200,130 @@ void Query2(PGconn* conn){
 }
 
 void Query3(PGconn* conn){
-
-    char *stringa[] = {
-      "A-","A-","B+","B-","AB+","AB-","0+","0-"
-    };
-  int n = sizeof(stringa) / sizeof(stringa[0]);
-  char scelta[32];
-  int valore;
-  printf("Seleziona il Gruppo sanguigno\n");
-  stampa(stringa,n);
-  printf("\n->");
-  scanf("%d",&valore);
-  while (getchar() != '\n' && getchar() != EOF);
-  
-  while(valore < 1 || valore > 8){
-    printf("Seleziona il Gruppo sanguigno(1 - 8)\n");
-    stampa(stringa,n);
-    printf("\n->");
-    scanf("%d",&valore);
-    while (getchar() != '\n' && getchar() != EOF);
-  }
-
-  if (valore == 1) 
-    strcpy(scelta, "A+");
-  else if (valore == 2) 
-    strcpy(scelta, "A-");
-  else if (valore == 3) 
-    strcpy(scelta, "B+");
-  else if (valore == 4) 
-    strcpy(scelta, "B-");
-  else if (valore == 5) 
-    strcpy(scelta, "AB+");
-  else if (valore == 6) 
-    strcpy(scelta, "AB-");
-  else if (valore == 7) 
-    strcpy(scelta, "0+");
-  else if (valore == 8)
-    strcpy(scelta,"0-");
-  
-  const char *paramValues[1];
-  paramValues[0] = scelta;
-  const char *query = "WITH stanze_posti AS ( "
-	"SELECT cf_ricoverato "
-	"FROM Ricoveri, Camere "
-	"WHERE Ricoveri.id_camera = Camere.id_camera AND Camere.massimo_letti >= 3 "
-") "
-
-"SELECT " 
-"a.nome, "
-"a.parentela, "
-"p.c_f "
-"FROM Accompagnatori a "
-"JOIN Pazienti p ON a.cf_paziente = p.c_f "
-"JOIN Cartella_clinica cl ON cl.cf_paziente = p.c_f "
-"WHERE cl.gruppo_sanguigno = $1 AND p.c_f IN ( "
-	"SELECT "
-	"cf_ricoverato "
-	"FROM stanze_posti);";
-
-  PGresult *res = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
-    if (check(res,conn) == 1)
-      return;
-    printQuery(res);
-    PQclear(res);
-}
-/*
-void Query1(PGconn *conn){
-
-  int valore;
-  char scelta[32];
-  printf("Inserire numero per selezionare prodotto 1-4\n1 )Accessori     2 )Attrezzo Calisthenics      3 )Attrezzo Fitness\n4 )Integratore");
-  printf("\n->");
-  scanf("%d",&valore);
-  while(valore < 1 || valore > 4){
-    printf("Scleta non valida\n");
-    printf("Inserire numero per selezionare prodotto 1-4\n->");
-    scanf("%d",&valore);
-  }
-  
-    if (valore == 1) 
-    strcpy(scelta, "Accessori");
-  else if (valore == 2) 
-    strcpy(scelta, "Attrezzo Calisthenics");
-  else if (valore == 3) 
-    strcpy(scelta, "Attrezzo Fitness");
-  else if (valore == 4) 
-    strcpy(scelta, "Integratore");
-
-    int min_vendite;
-    printf("Inserire il numero minimo di volte comprato\n-> ");
-    scanf("%d", &min_vendite);
-    while ((getchar()) != '\n' && getchar() != EOF);
-    char min_vendite_str[10];
-    snprintf(min_vendite_str, sizeof(min_vendite_str), "%d", min_vendite);
-
-const char *paramValues[2];
-  paramValues[0] = scelta;
-  paramValues[1] = min_vendite_str;			
-    
-  const char *query =
-"WITH VenditePerProdotto AS ("
-        "    SELECT s.id_prodotto, s.nome_prodotto, s.prezzo, COUNT(v.id_vendita) AS numero_vendite "
-        "    FROM Shop s "
-        "    JOIN Vendite v ON s.id_prodotto = v.id_prodotto "
-        "    WHERE s.tipo_prodotto = $1 "
-        "    GROUP BY s.id_prodotto, s.nome_prodotto, s.prezzo "
-        "    HAVING COUNT(v.id_vendita) >= $2 "
-        "), "
-        "ProdottiCostosi AS ("
-        "    SELECT nome_prodotto, prezzo, numero_vendite "
-        "    FROM VenditePerProdotto "
-        "    WHERE prezzo = ("
-        "        SELECT MAX(prezzo) "
-        "        FROM VenditePerProdotto "
-        "    )"
-        ") "
-        "SELECT nome_prodotto, prezzo, numero_vendite "
-        "FROM ProdottiCostosi "
-    "ORDER BY prezzo DESC;";
-  
- PGresult *res = PQexecParams(conn, query, 2, NULL, paramValues, NULL, NULL, 0);
-  
-  if (check(res,conn) == 1)
-    return;
-  printQuery(res);
-  PQclear(res);
-}
-*/
-
-
-/*
-
-void Query(PGconn* conn){
-  const char query = "";
+  const char *query = "SELECT "
+    "pm.nome, "
+    "pm.cognome, "
+    "pm.badge, "
+    "pm.reparto, "
+    "COUNT(DISTINCT ca.id_camera) AS numero_camere_occupate "
+"FROM Personale_medico AS pm "
+         "JOIN Camere AS ca ON pm.reparto = ca.nome_reparto "
+         "JOIN Ricoveri AS ri ON ca.id_camera = ri.id_camera "
+"WHERE pm.capo_reparto = TRUE "
+"GROUP BY pm.nome, pm.cognome, pm.badge, pm.reparto "
+"HAVING COUNT(DISTINCT ca.id_camera) = ( "
+    "SELECT "
+        "MAX(numero_camere) "
+    "FROM ( "
+             "SELECT "
+                 "COUNT(DISTINCT ca.id_camera) AS numero_camere "
+             "FROM Camere AS ca "
+                     "JOIN Ricoveri AS ri ON ca.id_camera = ri.id_camera "
+             "GROUP BY ca.nome_reparto "
+         ") AS conteggio "
+"); ";
   PGresult *res = PQexec(conn, query);
   if (check(res,conn) == 1)
     return;
   printQuery(res);
   PQclear(res);
-} 
-*/
+}
+
+void Query4(PGconn* conn){
+  int scelta;
+  char scelta2[32];
+  int anno;
+  char anno2[32];
+
+  printf("digitare un anno\n->");
+  scanf("%d",&anno);
+  while(anno < 2000 || anno >2030){
+    printf("digitare un anno [2000-2030]\n->");
+    scanf("%d",&anno);
+  }
+  snprintf(anno2, sizeof(anno2), "%d", anno);
+  while (getchar() != '\n' && getchar() != EOF);
+
+  printf("\nDigitare il numero di operazioni da voler visualizzare:\n->");
+  scanf("%d",&scelta);
+  while(scelta < 0){
+    printf("Scelta non valida, deve essere maggiore di zero\n->");
+    scanf("%d",&scelta);
+    }
+
+  snprintf(scelta2, sizeof(scelta2), "%d", scelta);
+  while (getchar() != '\n' && getchar() != EOF);
+  const char *paramValues[2];
+  paramValues[0] = scelta2;
+  paramValues[1] = anno2;
+  const char *query = "SELECT "
+  "o.id_operazione, "
+  "o.data_ AS data_operazione, "
+  "p.eta AS eta_paziente, "
+  "ROUND(AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, pm.data_nascita))),1) AS eta_media_chirurghi "
+"FROM Operazioni AS o "
+       "JOIN Lista_operazioni AS lo ON o.id_operazione = lo.id_operazione "
+       "JOIN Personale_medico AS pm ON lo.badge = pm.badge "
+       "JOIN Cartella_clinica AS cc ON o.id_cartella = cc.id_cartella "
+       "JOIN Pazienti AS p ON cc.cf_paziente = p.c_f "
+"WHERE EXTRACT(YEAR FROM o.data_) = $2 "
+"GROUP BY o.id_operazione, o.data_, p.eta "
+"ORDER BY o.data_ ASC "
+  "LIMIT $1; ";
+
+    PGresult *res = PQexecParams(conn, query, 2, NULL, paramValues, NULL, NULL, 0);
+    if (check(res,conn) == 1)
+      return;
+    printQuery(res);
+    PQclear(res);
+}
+
+void Query5(PGconn* conn){
+
+  char *stringa[] = {"Aspirina","Ibuprofene","Paracetamolo","Amoxicillina","Ciprofloxacina","Omeprazolo","Lorazepam","Clorazepato","Metformina","Prednisolone","Cortisone","Morfina","Fentanil","Doxiciclina","Acido folico","Tachipirina","Digossina","Enalapril","Atorvastatina","Simvastatina","Lisinopril","Salmeterolo","Furosemide","Alprazolam","Diazepam","Ranitidina","Cetirizina","Loratadina","Levotiroxina","Metoclopramide","Prozac","Sertralina","Duloxetina","Losartan","Vareniclina","Fluconazolo","Itraconazolo","Amlodipina","Candesartan","Adenosina","Salbutamolo","Tobramicina","Gentamicina","Clindamicina","Aciclovir","Valaciclovir","Azitromicina","Leflunomide","Meflochina","Fosfomicina","Betametasone","Ketorolac","Naproxene","Rivaroxaban","Apixaban","Warfarin","Clopidogrel","Heparina"};
+
+  int n = sizeof(stringa) / sizeof(stringa[0]);
+  printf("Selezionare una Farmaco\n");
+  stampa(stringa,n);
+  char scelta[3];
+  scanf("%c",scelta);
+  while (getchar() != '\n' && getchar() != EOF);
+  int s = atoi(scelta);
+  while(s < 0 || s > n){
+    printf("Selezionare una Farmaco [1-58](per avere di nuovo la lista [H/h])\n->");
+    scanf("%c",scelta);
+    while (getchar() != '\n' && getchar() != EOF);
+    scanf("%c",scelta);
+    if(scelta[0] == 'h' || scelta[0] == 'H'){
+      stampa(stringa,n);
+    }
+  }
+  char scelta2[32];
+  snprintf(scelta2, sizeof(scelta2), "%d", s+400);
+  const char *paramValues[1];
+  paramValues[0] = scelta2;
+
+  const char *query = "SELECT "
+    "fa.nome AS farmaco, "
+    "COUNT(DISTINCT p.c_f) AS pazienti_prescritti, "
+    "r.nome_reparto AS reparto_prescritto_di_piu "
+"FROM "
+    "Lista_farmaci lf "
+    "JOIN Cure c ON lf.id_cura = c.id_cura "
+    "JOIN Cartella_clinica cc ON c.id_cartella = cc.id_cartella "
+    "JOIN Pazienti p ON cc.cf_paziente = p.c_f "
+    "JOIN Personale_medico pm ON c.badge = pm.badge "
+    "JOIN Reparti r ON pm.reparto = r.nome_reparto "
+    "JOIN Farmaci fa ON lf.id_farmaco = fa.id_farmaco "
+    "WHERE fa.id_farmaco = $1 "
+    "GROUP BY "
+        "fa.nome, r.nome_reparto "
+    "ORDER BY "
+        "pazienti_prescritti DESC; ";
+
+  PGresult *res = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
+  if (check(res,conn) == 1)
+    return;
+  printQuery(res);
+  PQclear(res);
+}
