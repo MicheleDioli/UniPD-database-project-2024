@@ -121,6 +121,7 @@ int check(PGresult *P, PGconn *c) {
   }
   return 0;
 }
+
 void Query1(PGconn* conn){
   const char *query ="SELECT "
     "so.livello_attrezzatura, "

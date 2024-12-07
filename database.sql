@@ -637,3 +637,6 @@ INSERT INTO Lista_farmaci (id_cura, id_farmaco) VALUES
 (3029, 417),
 (3030, 418),
 (3031, 419);
+
+CREATE INDEX idx_sala ON Sale_operatorie(id_sala);
+CREATE INDEX idx_id_operazione ON Operazioni(id_operazione);
