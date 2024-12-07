@@ -67,11 +67,11 @@ int main() {
   else
     return 1;
 
-  printf("Benvenuti nel gestionale della palestra\n\n");
+  printf("Accesso del gestionale completato\n\n");
   stampaElenco();
 
   while (x == '0') {
-    printf("\nScegli un'operazione 1-6(h per info, q per uscire):");
+    printf("\nScegli un'operazione 1-5(h per info, q per uscire):");
     fgets(input, sizeof(input), stdin);
     printf("\n");
     //scanf("%s",input);
@@ -87,7 +87,7 @@ int main() {
     else {
       int quiri = atoi(input); // concatena l'input e lo casta ad int, con il cast succedono cose
 
-      if (quiri >= 1 && quiri <= 6) {
+      if (quiri >= 1 && quiri <= 5) {
         quiri -= 1;
         query[quiri](conn); // chiamata all array di funzioni con la scelta inserita
       }

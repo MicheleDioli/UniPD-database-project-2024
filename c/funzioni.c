@@ -30,9 +30,11 @@ void stampa(char **st, int numC) {
 
 
 void listaQuer() {
-  printf("Query 1: Capi chirurghi e pazienti ricoverati dopo data scelta\n.");
-  printf("Query 2: Pazienti di un reparto scelto, che sono allergici e le date di ricovero ordinate.\n");
-  printf("Query 3: Accompagnatori pazienti con gruppo sanguigno scelto e in stanze grandi (# letti > 3)\n");
+  printf("Query 1: Chirurghi che hanno operato con diverse attrezzature\n.");
+  printf("Query 2: Media letti occupati reparto scelto, e media ospedale\n");
+  printf("Query 3: Capo reparto e reparto con piè ricoverati\n");
+  printf("Query 4: Prime n operazioni dell anno scelto\n");
+  printf("Query 5: Somminostrazioni farmaco scelto\n");
 }
 
 void stampaElenco() {
@@ -283,25 +285,31 @@ void Query5(PGconn* conn){
   char *stringa[] = {"Aspirina","Ibuprofene","Paracetamolo","Amoxicillina","Ciprofloxacina","Omeprazolo","Lorazepam","Clorazepato","Metformina","Prednisolone","Cortisone","Morfina","Fentanil","Doxiciclina","Acido folico","Tachipirina","Digossina","Enalapril","Atorvastatina","Simvastatina","Lisinopril","Salmeterolo","Furosemide","Alprazolam","Diazepam","Ranitidina","Cetirizina","Loratadina","Levotiroxina","Metoclopramide","Prozac","Sertralina","Duloxetina","Losartan","Vareniclina","Fluconazolo","Itraconazolo","Amlodipina","Candesartan","Adenosina","Salbutamolo","Tobramicina","Gentamicina","Clindamicina","Aciclovir","Valaciclovir","Azitromicina","Leflunomide","Meflochina","Fosfomicina","Betametasone","Ketorolac","Naproxene","Rivaroxaban","Apixaban","Warfarin","Clopidogrel","Heparina"};
 
   int n = sizeof(stringa) / sizeof(stringa[0]);
-  printf("Selezionare una Farmaco\n");
-  stampa(stringa,n);
-  char scelta[3];
-  scanf("%c",scelta);
-  while (getchar() != '\n' && getchar() != EOF);
-  int s = atoi(scelta);
-  while(s < 0 || s > n){
-    printf("Selezionare una Farmaco [1-58](per avere di nuovo la lista [H/h])\n->");
-    scanf("%c",scelta);
-    while (getchar() != '\n' && getchar() != EOF);
-    scanf("%c",scelta);
-    if(scelta[0] == 'h' || scelta[0] == 'H'){
-      stampa(stringa,n);
+
+    printf("Selezionare un farmaco dalla lista seguente:\n");
+    stampa(stringa, n);
+
+    int s = -1;
+    char x = '1';
+    printf("Inserire un numero tra 1 e %d (H/h per mostrare la lista):\n-> ", n);
+    char input[10];
+    while(x == '1'){
+        fgets(input, sizeof(input), stdin); // Legge una linea intera dall'input
+        if (input[0] == 'H' || input[0] == 'h') {
+            stampa(stringa, n);
+            x = '1';
+        }
+
+        s = atoi(input); // Converte l'input in un intero
+        if (s >= 1 && s <= n) {
+            x = '0';
+        }
+        else {printf("Valore non valido. Riprova.\n->");}
     }
-  }
-  char scelta2[32];
-  snprintf(scelta2, sizeof(scelta2), "%d", s+400);
-  const char *paramValues[1];
-  paramValues[0] = scelta2;
+
+    char scelta2[32];
+    snprintf(scelta2, sizeof(scelta2), "%d", s + 400); // Offset id farmaco
+    const char *paramValues[1] = {scelta2};
 
   const char *query = "SELECT "
     "fa.nome AS farmaco, "
