@@ -232,19 +232,48 @@ void Query3(PGconn* conn){
 }
 
 void Query4(PGconn* conn){
-  int scelta;
   char scelta2[32];
-  int anno;
-  char anno2[32];
+  int scelta;
+  char data[32];
+  char anno[8];
+  char mese[8];
+  char giorno[8];
+  char turututuro[4] ="-";
 
   printf("digitare un anno\n->");
-  scanf("%d",&anno);
-  while(anno < 2000 || anno >2030){
-    printf("digitare un anno [2000-2030]\n->");
-    scanf("%d",&anno);
+
+  scanf("%d",&scelta);
+
+  while(scelta < 2000 || scelta >2030){
+      printf("digitare un anno [2000-2030]\n->");
+      scanf("%d",&scelta);
   }
-  snprintf(anno2, sizeof(anno2), "%d", anno);
-  while (getchar() != '\n' && getchar() != EOF);
+  snprintf(anno, sizeof(anno), "%d", scelta);
+  while ((getchar()) != '\n' && getchar() != EOF);
+
+
+  printf("digitare un mese\n->");
+  scanf("%d",&scelta);
+
+  while(scelta < 1 || scelta >12){
+      printf("digitare un mese [1-12]\n->");
+      scanf("%d",&scelta);
+  }
+  snprintf(mese, sizeof(mese), "%d", scelta);
+  while ((getchar()) != '\n' && getchar() != EOF);
+  printf("digitare un giorno[1-31]\n->");
+  scanf("%d",&scelta);
+    while(scelta < 1 || scelta >31){
+      printf("digitare un giorno [1-31]\n->");
+      scanf("%d",&scelta);
+  }
+  snprintf(giorno, sizeof(anno), "%d", scelta);
+  while ((getchar()) != '\n' && getchar() != EOF);
+  strcpy(data, anno);
+  strcat(data, turututuro);
+  strcat(data, mese);
+  strcat(data, turututuro),
+  strcat(data, giorno);
 
   printf("\nDigitare il numero di operazioni da voler visualizzare:\n->");
   scanf("%d",&scelta);
@@ -257,7 +286,7 @@ void Query4(PGconn* conn){
   while (getchar() != '\n' && getchar() != EOF);
   const char *paramValues[2];
   paramValues[0] = scelta2;
-  paramValues[1] = anno2;
+  paramValues[1] = data;
   const char *query = "SELECT "
   "o.id_operazione, "
   "o.data_ AS data_operazione, "
@@ -268,7 +297,7 @@ void Query4(PGconn* conn){
        "JOIN Personale_medico AS pm ON lo.badge = pm.badge "
        "JOIN Cartella_clinica AS cc ON o.id_cartella = cc.id_cartella "
        "JOIN Pazienti AS p ON cc.cf_paziente = p.c_f "
-"WHERE EXTRACT(YEAR FROM o.data_) = $2 "
+"WHERE o.data_ > $2 "
 "GROUP BY o.id_operazione, o.data_, p.eta "
 "ORDER BY o.data_ ASC "
   "LIMIT $1; ";
@@ -312,7 +341,7 @@ void Query5(PGconn* conn){
     const char *paramValues[1] = {scelta2};
 
   const char *query = "SELECT "
-    "fa.nome AS farmaco, "
+    "fa.nome, fa.dosaggio AS farmaco, "
     "COUNT(DISTINCT p.c_f) AS pazienti_prescritti, "
     "r.nome_reparto AS reparto_prescritto_di_piu "
 "FROM "
@@ -325,7 +354,7 @@ void Query5(PGconn* conn){
     "JOIN Farmaci fa ON lf.id_farmaco = fa.id_farmaco "
     "WHERE fa.id_farmaco = $1 "
     "GROUP BY "
-        "fa.nome, r.nome_reparto "
+        "fa.nome, r.nome_reparto,fa.dosaggio "
     "ORDER BY "
         "pazienti_prescritti DESC; ";
 

@@ -1,30 +1,4 @@
---query 1: stampa il nome e il badge di tutti i capi reparto che hanno eseguito un operazione su 
---pazienti che sono stati ricoverati dopo una data scelta dall'utente e stampa anche il nome del paziente 
-
-
---query 2: stampa i nomi e cognomi di tutti i pazienti ricoverati in un reparto scelto da utente a cui sono stati prescritti farmaci
---e che hanno un allergia 
-
-
---query 3: stampa nome e grado di parentela degli accompagnatori (e cf del paziente accompagnato) di pazienti che hanno un 
---gruppo sanguigno scelto da utente e che sono in una camra con + di 3 posti letto
-
-
---query 4: stampa il nome,cognome e reparto e id operazione di medici che abbiano svolto operazioni che hanno avuto esito negativo in sale 
---operatorie con un livello di attrezzatura alto
-
-
-
-
-
---query 6: stampa l'id del ricovero il numero di camera, il nome del reparto e il badge del medico che ha scitto la cartella clinica di
---ogni paziente che sia stato ricoverato precedentemente a una data inserita da utente e stampare (in booleano tipo si o no)
---se ha mai subito un'operazione
-
-
---query nuove
-
---1 : calcolare la media di ricoverati nell'ospedale per camera e poi scelto un reparto da utente calcolare il numero di 
+--1 : calcolare la media di ricoverati nell'ospedale per camera e poi scelto un reparto da utente calcolare il numero di
 --    ricoverati per camera in quel reparto in modo da avere un confronto
 WITH media AS(
     SELECT Camere.id_camera, COUNT(*) AS pa
@@ -80,22 +54,22 @@ HAVING COUNT(DISTINCT ca.id_camera) = (
 -- scelto un farmaco tramite id conta a quanti pazienti e stato prescritto e il reparto a in cui e stato prescritto
 
 SELECT
-    fa.nome AS farmaco,
+    fa.nome, fa.dosaggio AS farmaco,
     COUNT(DISTINCT p.c_f) AS pazienti_prescritti,
     r.nome_reparto AS reparto_prescritto_di_piu
 FROM
     Lista_farmaci lf
-    JOIN Cure c ON lf.id_cura = c.id_cura
-    JOIN Cartella_clinica cc ON c.id_cartella = cc.id_cartella
-    JOIN Pazienti p ON cc.cf_paziente = p.c_f
-    JOIN Personale_medico pm ON c.badge = pm.badge
-    JOIN Reparti r ON pm.reparto = r.nome_reparto
-    JOIN Farmaci fa ON lf.id_farmaco = fa.id_farmaco
-    WHERE fa.id_farmaco = 405
-    GROUP BY
-        fa.nome, r.nome_reparto
-    ORDER BY
-        pazienti_prescritti DESC
+        JOIN Cure c ON lf.id_cura = c.id_cura
+        JOIN Cartella_clinica cc ON c.id_cartella = cc.id_cartella
+        JOIN Pazienti p ON cc.cf_paziente = p.c_f
+        JOIN Personale_medico pm ON c.badge = pm.badge
+        JOIN Reparti r ON pm.reparto = r.nome_reparto
+        JOIN Farmaci fa ON lf.id_farmaco = fa.id_farmaco
+WHERE fa.id_farmaco = 406
+GROUP BY
+    fa.nome, r.nome_reparto, fa.dosaggio
+ORDER BY
+    pazienti_prescritti DESC
 
 -- anno scelto e n operazioni scelte con media eta chi, e eta paziente
 SELECT
@@ -108,7 +82,7 @@ FROM Operazioni AS o
          JOIN Personale_medico AS pm ON lo.badge = pm.badge
          JOIN Cartella_clinica AS cc ON o.id_cartella = cc.id_cartella
          JOIN Pazienti AS p ON cc.cf_paziente = p.c_f
-WHERE EXTRACT(YEAR FROM o.data_) = 2024
+WHERE o.data_ > '2024-01-01'
 GROUP BY o.id_operazione, o.data_, p.eta
 ORDER BY o.data_ ASC
     LIMIT 5;
