@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS Lista_farmaci CASCADE;
 DROP TYPE IF EXISTS gruppo CASCADE;
 
 CREATE TABLE IF NOT EXISTS Reparti(
-                                      nome_reparto VARCHAR(32) PRIMARY KEY,
+    nome_reparto VARCHAR(32) PRIMARY KEY,
     piano INT NOT NULL,
     capacita_massima INT NOT NULL,
     telefono_reparto  VARCHAR(16) NOT NULL
@@ -33,8 +33,8 @@ INSERT INTO Reparti (nome_reparto, piano, capacita_massima, telefono_reparto) VA
                                                                                   ('Urologia', 4, 42, '0810123456');
 
 CREATE TABLE IF NOT EXISTS Personale_medico(
-                                               badge INT PRIMARY KEY,
-                                               nome VARCHAR(32) NOT NULL,
+    badge INT PRIMARY KEY,
+    nome VARCHAR(32) NOT NULL,
     cognome VARCHAR(32) NOT NULL,
     ruolo VARCHAR(64) NOT NULL,
     data_nascita DATE NOT NULL,
@@ -81,7 +81,7 @@ INSERT INTO Personale_medico (badge, nome, cognome, ruolo, data_nascita, comune_
 
 
 CREATE TABLE IF NOT EXISTS Pazienti(
-                                       c_f VARCHAR(16) PRIMARY KEY,
+    c_f VARCHAR(16) PRIMARY KEY,
     nome VARCHAR(32) NOT NULL,
     cognome VARCHAR(32) NOT NULL,
     data_nascita DATE NOT NULL,
@@ -138,8 +138,8 @@ INSERT INTO Pazienti (c_f, nome, cognome, data_nascita, sesso, comune_nascita, e
                                                                                         ('RNLMME18S30H501S', 'Emma', 'Rinaldi', '2018-11-30', 'femmina', 'Palermo', 6);
 
 CREATE TABLE IF NOT EXISTS Camere(
-                                     id_camera INT PRIMARY KEY,
-                                     nome_reparto VARCHAR(32) NOT NULL,
+    id_camera INT PRIMARY KEY,
+    nome_reparto VARCHAR(32) NOT NULL,
     massimo_letti INT NOT NULL,
     FOREIGN KEY (nome_reparto) REFERENCES Reparti(nome_reparto)
     );
@@ -176,12 +176,13 @@ INSERT INTO Camere (id_camera, nome_reparto, massimo_letti) VALUES
                                                                 (1029, 'Urologia', 2);
 
 CREATE TABLE IF NOT EXISTS Ricoveri(
-                                       id_ricovero INT PRIMARY KEY,
-                                       data_ricovero DATE NOT NULL,
-                                       ora_ricovero TIME NOT NULL,
-                                       stato_ricovero VARCHAR(32) NOT NULL,
+    id_ricovero INT PRIMARY KEY,
+    data_ricovero DATE NOT NULL,
+    ora_ricovero TIME NOT NULL,
+    stato_ricovero VARCHAR(32) NOT NULL,
     id_camera INT NOT NULL,
     cf_ricoverato VARCHAR(16) NOT NULL,
+    FOREIGN KEY (id_camera) REFERENCES Camere(id_camera),
     FOREIGN KEY (cf_ricoverato) REFERENCES Pazienti(c_f)
     );
 
@@ -234,7 +235,7 @@ INSERT INTO Ricoveri (id_ricovero, data_ricovero, ora_ricovero, stato_ricovero, 
 
 
 CREATE TABLE IF NOT EXISTS Accompagnatori(
-                                             cf_accompagnatore VARCHAR(16) PRIMARY KEY,
+    cf_accompagnatore VARCHAR(16) PRIMARY KEY,
     nome VARCHAR(32) NOT NULL,
     cognome VARCHAR(32) NOT NULL,
     data_nascita DATE NOT NULL,
@@ -258,8 +259,8 @@ INSERT INTO Accompagnatori (cf_accompagnatore, nome, cognome, data_nascita, pare
 CREATE TYPE gruppo AS ENUM ('A+','A-','B+','B-','0+','0-','AB+','AB-');
 
 CREATE TABLE IF NOT EXISTS Cartella_clinica(
-                                               id_cartella INT PRIMARY KEY,
-                                               allergie VARCHAR(64),
+    id_cartella INT PRIMARY KEY,
+    allergie VARCHAR(64),
     patologie VARCHAR(64),
     gruppo_sanguigno GRUPPO NOT NULL,
     cf_paziente VARCHAR(16) NOT NULL,
@@ -314,9 +315,9 @@ INSERT INTO Cartella_clinica (id_cartella, allergie, patologie, gruppo_sanguigno
                                                                                                    (345, NULL, 'Peritonite', 'A-', 'RNLMME18S30H501S');
 
 CREATE TABLE IF NOT EXISTS Sale_operatorie(
-                                              id_sala INT PRIMARY KEY,
-                                              max_persone INT NOT NULL,
-                                              livello_attrezzatura VARCHAR(16) NOT NULL
+    id_sala INT PRIMARY KEY,
+    max_persone INT NOT NULL,
+    livello_attrezzatura VARCHAR(16) NOT NULL
     );
 
 INSERT INTO Sale_operatorie (id_sala, max_persone, livello_attrezzatura) VALUES
@@ -332,8 +333,8 @@ INSERT INTO Sale_operatorie (id_sala, max_persone, livello_attrezzatura) VALUES
                                                                              (2010, 3, 'basso');
 
 CREATE TABLE IF NOT EXISTS Operazioni(
-                                         id_operazione INT PRIMARY KEY,
-                                         durata VARCHAR(32) NOT NULL,
+    id_operazione INT PRIMARY KEY,
+    durata VARCHAR(32) NOT NULL,
     esito VARCHAR(32) NOT NULL,
     data_ DATE NOT NULL,
     nome_operazione VARCHAR(64) NOT NULL,
@@ -362,8 +363,8 @@ INSERT INTO Operazioni (id_operazione, durata, esito, data_, nome_operazione, sa
                                                                                                                     (515, 5, 'positivo', '2024-11-15', 'protesi d anca', 2005, '08:00:00', 315);
 
 CREATE TABLE IF NOT EXISTS Farmaci(
-                                      id_farmaco INT PRIMARY KEY,
-                                      nome VARCHAR(32) NOT NULL,
+    id_farmaco INT PRIMARY KEY,
+    nome VARCHAR(32) NOT NULL,
     dosaggio VARCHAR(32) NOT NULL,
     controindicazioni VARCHAR(64) NOT NULL,
     data_scadenza DATE NOT NULL,
@@ -434,8 +435,8 @@ INSERT INTO Farmaci (id_farmaco, nome, dosaggio, controindicazioni, data_scadenz
 
 
 CREATE TABLE IF NOT EXISTS Cure(
-                                   id_cura INT PRIMARY KEY,
-                                   tipo_cura VARCHAR(32) NOT NULL,
+    id_cura INT PRIMARY KEY,
+    tipo_cura VARCHAR(32) NOT NULL,
     data_somministrazione DATE NOT NULL,
     badge INT NOT NULL,
     id_cartella INT NOT NULL,
@@ -493,9 +494,9 @@ INSERT INTO Cure (id_cura, tipo_cura, data_somministrazione, badge, id_cartella)
 
 
 CREATE TABLE IF NOT EXISTS Lista_operazioni(
-                                               badge INT,
-                                               id_operazione INT,
-                                               PRIMARY KEY(badge, id_operazione),
+    badge INT,
+    id_operazione INT,
+    PRIMARY KEY(badge, id_operazione),
     FOREIGN KEY (badge) REFERENCES Personale_medico(badge),
     FOREIGN KEY (id_operazione) REFERENCES Operazioni(id_operazione)
     );
@@ -554,9 +555,9 @@ INSERT INTO Lista_operazioni (badge, id_operazione) VALUES
                                                         (111, 509);
 
 CREATE TABLE IF NOT EXISTS Lista_farmaci(
-                                            id_cura INT,
-                                            id_farmaco INT,
-                                            PRIMARY KEY (id_cura, id_farmaco),
+    id_cura INT,
+    id_farmaco INT,
+    PRIMARY KEY (id_cura, id_farmaco),
     FOREIGN KEY (id_cura) REFERENCES Cure(id_cura),
     FOREIGN KEY (id_farmaco) REFERENCES Farmaci(id_farmaco)
     );
@@ -641,3 +642,94 @@ INSERT INTO Lista_farmaci (id_cura, id_farmaco) VALUES
 
 CREATE INDEX idx_sala ON Sale_operatorie(id_sala);
 CREATE INDEX idx_id_operazione ON Operazioni(id_operazione);
+
+--QUERY
+
+
+-- : calcolare la media di ricoverati nell'ospedale per camera e poi scelto un reparto da utente calcolare il numero di
+--    ricoverati per camera in quel reparto in modo da avere un confronto
+WITH media AS(
+    SELECT Camere.id_camera, COUNT(*) AS pa
+    FROM Ricoveri, Camere
+    WHERE Ricoveri.id_camera = Camere.id_camera
+    GROUP BY Camere.id_camera
+),
+     media2 AS(
+         SELECT Camere.id_camera, COUNT(*) AS pb
+         FROM Ricoveri, Camere
+         WHERE Ricoveri.id_camera = Camere.id_camera AND Camere.nome_reparto = 'Pediatria'
+         GROUP BY Camere.id_camera
+     )
+SELECT ROUND(AVG(pa),2) AS media_stanze, ROUND(AVG(pb),2) AS media_reparto
+FROM media, media2
+
+-- : stampa il numero di chirurgi che hanno lavorato nelle sale operatorie raggruppandoli per il livello di attrezzatura della sala (tramite id)
+SELECT
+    so.livello_attrezzatura,
+    COUNT(DISTINCT lo.badge) AS n_chirurgi
+FROM Sale_operatorie AS so
+         JOIN Operazioni AS o ON o.sala = so.id_sala
+         JOIN Lista_operazioni AS lo ON lo.id_operazione = o.id_operazione
+GROUP BY so.livello_attrezzatura;
+
+--questa che e molto easy la metteri come prima ne do una della stessa difficolta come alternativa
+
+--: stampare i nome, cognome e badge del capo reparto (scelto da utente) e nome del reparto, del reparto con piu ricoverati
+SELECT
+    pm.nome,
+    pm.cognome,
+    pm.badge,
+    pm.reparto,
+    COUNT(DISTINCT ca.id_camera) AS numero_camere_occupate
+FROM Personale_medico AS pm
+         JOIN Camere AS ca ON pm.reparto = ca.nome_reparto
+         JOIN Ricoveri AS ri ON ca.id_camera = ri.id_camera
+WHERE pm.capo_reparto = TRUE
+GROUP BY pm.nome, pm.cognome, pm.badge, pm.reparto
+HAVING COUNT(DISTINCT ca.id_camera) = (
+    SELECT
+        MAX(numero_camere)
+    FROM (
+             SELECT
+                 COUNT(DISTINCT ca.id_camera) AS numero_camere
+             FROM Camere AS ca
+                      JOIN Ricoveri AS ri ON ca.id_camera = ri.id_camera
+             GROUP BY ca.nome_reparto
+         ) AS conteggio
+);
+
+-- scelto un farmaco tramite id conta a quanti pazienti e stato prescritto e il reparto a in cui e stato prescritto
+
+SELECT
+    fa.nome, fa.dosaggio AS farmaco,
+    COUNT(DISTINCT p.c_f) AS pazienti_prescritti,
+    r.nome_reparto AS reparto_prescritto_di_piu
+FROM
+    Lista_farmaci lf
+        JOIN Cure c ON lf.id_cura = c.id_cura
+        JOIN Cartella_clinica cc ON c.id_cartella = cc.id_cartella
+        JOIN Pazienti p ON cc.cf_paziente = p.c_f
+        JOIN Personale_medico pm ON c.badge = pm.badge
+        JOIN Reparti r ON pm.reparto = r.nome_reparto
+        JOIN Farmaci fa ON lf.id_farmaco = fa.id_farmaco
+WHERE fa.id_farmaco = 406
+GROUP BY
+    fa.nome, r.nome_reparto, fa.dosaggio
+ORDER BY
+    pazienti_prescritti DESC
+
+-- anno scelto e n operazioni scelte con media eta chi, e eta paziente
+SELECT
+    o.id_operazione,
+    o.data_ AS data_operazione,
+    p.eta AS eta_paziente,
+    ROUND(AVG(EXTRACT(YEAR FROM AGE(CURRENT_DATE, pm.data_nascita))),1) AS eta_media_chirurghi
+FROM Operazioni AS o
+         JOIN Lista_operazioni AS lo ON o.id_operazione = lo.id_operazione
+         JOIN Personale_medico AS pm ON lo.badge = pm.badge
+         JOIN Cartella_clinica AS cc ON o.id_cartella = cc.id_cartella
+         JOIN Pazienti AS p ON cc.cf_paziente = p.c_f
+WHERE o.data_ > '2024-01-01'
+GROUP BY o.id_operazione, o.data_, p.eta
+ORDER BY o.data_ ASC
+    LIMIT 5;

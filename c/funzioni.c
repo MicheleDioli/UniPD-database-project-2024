@@ -316,8 +316,7 @@ void Query5(PGconn* conn){
 
   int n = sizeof(stringa) / sizeof(stringa[0]);
 
-    printf("Selezionare un farmaco dalla lista seguente:\n");
-    stampa(stringa, n);
+    printf("Selezionare un farmaco [1-58]:\n");
 
     int s = -1;
     char x = '1';
@@ -328,17 +327,22 @@ void Query5(PGconn* conn){
         if (input[0] == 'H' || input[0] == 'h') {
             stampa(stringa, n);
             x = '1';
-        }
+        } else { // else un po' dubbio ma non mi vengono alternative
 
         s = atoi(input); // Converte l'input in un intero
+        
         if (s >= 1 && s <= n) {
             x = '0';
+        } else {
+          printf("Valore non valido. Riprova.");
+          }
+
         }
-        else {printf("Valore non valido. Riprova.\n->");}
+        printf("\n-> ");
     }
 
     char scelta2[32];
-    snprintf(scelta2, sizeof(scelta2), "%d", s + 400); // Offset id farmaco
+    snprintf(scelta2, sizeof(scelta2), "%d", s + 400); // mo dovrebbe funzionare 
     const char *paramValues[1] = {scelta2};
 
   const char *query = "SELECT "

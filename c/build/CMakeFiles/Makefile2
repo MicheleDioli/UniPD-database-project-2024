@@ -102,6 +102,7 @@ database: CMakeFiles/database.dir/rule
 # codegen rule for target.
 CMakeFiles/database.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/database.dir/build.make CMakeFiles/database.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/jeff/Desktop/UniPD-database-project-2024/c/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target database"
 .PHONY : CMakeFiles/database.dir/codegen
 
 # clean rule for target.

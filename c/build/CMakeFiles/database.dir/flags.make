@@ -6,7 +6,7 @@ C_DEFINES =
 
 C_INCLUDES = -I/Users/jeff/Desktop/UniPD-database-project-2024/c/libpq/include
 
-C_FLAGSarm64 =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk
+C_FLAGSarm64 =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
 
-C_FLAGS =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.1.sdk
+C_FLAGS =  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.2.sdk
 
